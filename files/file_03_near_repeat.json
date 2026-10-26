@@ -1,0 +1,55 @@
+{
+  "id": "file_03_near_repeat",
+  "factor": "Near-Repeat Contagion (The 2-4 Week Vulnerability Window)",
+  "title": "Technique 4 (Most Important): The Near-Repeat Pattern",
+  "simple_summary": "If house #12 is burglarized on Monday, the burglar now knows the layout, escape paths, and lack of alarms in that street. For the next 2-4 weeks, the SAME house (Repeat) and its immediate neighbours within 200m (Near-Repeat) face sharply higher risk.",
+  "key_concept": "Spatio-Temporal Contagion: Like an infectious disease or ripples in a pond, criminal risk radiates outwards immediately after an incident and decays after 28 days.",
+  "tools_used": [
+    "Near-Repeat Calculator (Temple University)",
+    "Local FIR Incident Tracker"
+  ],
+  "recommended_action": "Within 48 hours of any burglary, dispatch beat officers to knock on the 10 closest neighboring doors, advise on window latches, and conduct short drive-bys for 14 days.",
+  "dataset_sample": [
+    {
+      "case_id": "NR-001",
+      "origin_incident": "Residential Break-in (House 42)",
+      "date": "Day 0",
+      "radius_meters": 0,
+      "risk_multiplier": "4.5x baseline",
+      "status": "Original Victim (Repeat Risk)"
+    },
+    {
+      "case_id": "NR-002",
+      "origin_incident": "House 44 & 40 (Adjacent)",
+      "date": "Day 1 to 7",
+      "radius_meters": 50,
+      "risk_multiplier": "3.8x baseline",
+      "status": "Critical Near-Repeat Zone"
+    },
+    {
+      "case_id": "NR-003",
+      "origin_incident": "Opposite Row (House 51-55)",
+      "date": "Day 8 to 14",
+      "radius_meters": 120,
+      "risk_multiplier": "2.4x baseline",
+      "status": "Moderate Near-Repeat Zone"
+    },
+    {
+      "case_id": "NR-004",
+      "origin_incident": "Outer Perimeter Block",
+      "date": "Day 15 to 28",
+      "radius_meters": 250,
+      "risk_multiplier": "1.4x baseline",
+      "status": "Fading Risk Zone"
+    },
+    {
+      "case_id": "NR-005",
+      "origin_incident": "Post-Day 30 Assessment",
+      "date": "Day 31+",
+      "radius_meters": 400,
+      "risk_multiplier": "1.0x (Normal)",
+      "status": "Returned to Baseline"
+    }
+  ],
+  "non_tech_takeaway": "Near-repeat is the single most reliable, well-evidenced pattern in international criminology. It requires no complex math\u2014just your own FIR dates and door numbers."
+}

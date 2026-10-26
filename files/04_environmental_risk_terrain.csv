@@ -1,0 +1,6 @@
+zone_id,place_name,atm_present,liquor_vend,poor_lighting,vacant_structure,transit_hub,overlap_score,crime_vulnerability
+RTM-01,Station Plaza West,True,True,True,False,True,4/5 (Extreme Risk),Violent Robbery & Snatching
+RTM-02,Commercial Block B,True,False,False,False,False,1/5 (Low Risk),Opportunistic Pickpocketing
+RTM-03,Old Warehouse Perimeter,False,True,True,True,False,3/5 (High Risk),Illicit Substances & Staged Robbery
+RTM-04,Suburban Park Border,False,False,True,False,False,1/5 (Low Risk),Nuisance / Trespassing
+RTM-05,Highway Petrol Pump & Motel,True,True,False,False,True,3/5 (High Risk),Vehicle Theft & Highway Heists

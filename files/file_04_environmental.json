@@ -1,0 +1,70 @@
+{
+  "id": "file_04_environmental",
+  "factor": "Environmental Features (Risk Terrain Modeling - RTM)",
+  "title": "Predicting Crime Without History: What Makes a Place Attractive to Crime?",
+  "simple_summary": "What if an area is completely new\u2014like a brand new shopping mall or newly built metro station\u2014with zero crime records? Risk Terrain Modeling looks at the physical features that attract crime: ATMs, liquor vends, dark alleys, and vacant lots.",
+  "key_concept": "Layer Stacking: Each physical risk feature is like a transparent colored plastic sheet. Where 3 or 4 sheets overlap, the color is deepest red\u2014flagging high risk even with zero past FIRs.",
+  "tools_used": [
+    "QGIS Risk Stacking",
+    "Rutgers RTM Diagnostic Tool"
+  ],
+  "recommended_action": "Problem-Oriented Policing (POP): Fix the environment! Fix broken streetlights, trim overgrown bushes, install mirrors at blind corners, and require security guards at late-night ATMs.",
+  "dataset_sample": [
+    {
+      "zone_id": "RTM-01",
+      "place_name": "Station Plaza West",
+      "atm_present": true,
+      "liquor_vend": true,
+      "poor_lighting": true,
+      "vacant_structure": false,
+      "transit_hub": true,
+      "overlap_score": "4/5 (Extreme Risk)",
+      "crime_vulnerability": "Violent Robbery & Snatching"
+    },
+    {
+      "zone_id": "RTM-02",
+      "place_name": "Commercial Block B",
+      "atm_present": true,
+      "liquor_vend": false,
+      "poor_lighting": false,
+      "vacant_structure": false,
+      "transit_hub": false,
+      "overlap_score": "1/5 (Low Risk)",
+      "crime_vulnerability": "Opportunistic Pickpocketing"
+    },
+    {
+      "zone_id": "RTM-03",
+      "place_name": "Old Warehouse Perimeter",
+      "atm_present": false,
+      "liquor_vend": true,
+      "poor_lighting": true,
+      "vacant_structure": true,
+      "transit_hub": false,
+      "overlap_score": "3/5 (High Risk)",
+      "crime_vulnerability": "Illicit Substances & Staged Robbery"
+    },
+    {
+      "zone_id": "RTM-04",
+      "place_name": "Suburban Park Border",
+      "atm_present": false,
+      "liquor_vend": false,
+      "poor_lighting": true,
+      "vacant_structure": false,
+      "transit_hub": false,
+      "overlap_score": "1/5 (Low Risk)",
+      "crime_vulnerability": "Nuisance / Trespassing"
+    },
+    {
+      "zone_id": "RTM-05",
+      "place_name": "Highway Petrol Pump & Motel",
+      "atm_present": true,
+      "liquor_vend": true,
+      "poor_lighting": false,
+      "vacant_structure": false,
+      "transit_hub": true,
+      "overlap_score": "3/5 (High Risk)",
+      "crime_vulnerability": "Vehicle Theft & Highway Heists"
+    }
+  ],
+  "non_tech_takeaway": "A hotspot map tells you WHERE crime occurred yesterday. Risk Terrain tells you WHY that corner attracts crime tomorrow. Fixing the broken bulb often prevents more crimes than a passing patrol car."
+}

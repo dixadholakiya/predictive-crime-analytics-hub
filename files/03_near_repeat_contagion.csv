@@ -1,0 +1,6 @@
+case_id,origin_incident,date,radius_meters,risk_multiplier,status
+NR-001,Residential Break-in (House 42),Day 0,0,4.5x baseline,Original Victim (Repeat Risk)
+NR-002,House 44 & 40 (Adjacent),Day 1 to 7,50,3.8x baseline,Critical Near-Repeat Zone
+NR-003,Opposite Row (House 51-55),Day 8 to 14,120,2.4x baseline,Moderate Near-Repeat Zone
+NR-004,Outer Perimeter Block,Day 15 to 28,250,1.4x baseline,Fading Risk Zone
+NR-005,Post-Day 30 Assessment,Day 31+,400,1.0x (Normal),Returned to Baseline

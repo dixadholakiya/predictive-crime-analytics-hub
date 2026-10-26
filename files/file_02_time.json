@@ -1,0 +1,60 @@
+{
+  "id": "file_02_time",
+  "factor": "Time & Season (Temporal Crime Forecasting)",
+  "title": "Predicting Crime by Time: Hours, Days, Paydays & Festive Spikes",
+  "simple_summary": "Crime does not happen at random times. Burglaries happen when homes are empty (work hours or summer holidays). Street robberies spike on payday weekends and late Friday nights. Forecast.ETS in Excel projects future counts from historical weekly rhythms without coding.",
+  "key_concept": "Moving Averages & 95% Confidence Intervals: Projections are never guaranteed certainties. They show an expected range (dashed line + shaded band) so commanders know the uncertainty.",
+  "tools_used": [
+    "Excel FORECAST.ETS (Built-in)",
+    "Meta Prophet (Holiday-aware forecasting)"
+  ],
+  "recommended_action": "Align patrol shift changeovers so officers are on the street during the 20:00 - 23:30 surge rather than handing over vehicles at the station.",
+  "dataset_sample": [
+    {
+      "period": "2025-W48",
+      "time_window": "Friday Night 21:00-01:00",
+      "historic_count": 14,
+      "forecasted_count": 16,
+      "conf_lower": 12,
+      "conf_upper": 20,
+      "factor": "Month-end salary payout + weekend bars closing"
+    },
+    {
+      "period": "2025-W49",
+      "time_window": "Sunday Afternoon 14:00-17:00",
+      "historic_count": 5,
+      "forecasted_count": 6,
+      "conf_lower": 3,
+      "conf_upper": 9,
+      "factor": "Standard baseline residential quiet period"
+    },
+    {
+      "period": "2025-W50",
+      "time_window": "Holiday Week Evening 18:00-22:00",
+      "historic_count": 22,
+      "forecasted_count": 25,
+      "conf_lower": 19,
+      "conf_upper": 31,
+      "factor": "Festival shopping rush, crowded jewelry markets"
+    },
+    {
+      "period": "2025-W51",
+      "time_window": "Midweek 03:00-05:00",
+      "historic_count": 8,
+      "forecasted_count": 9,
+      "conf_lower": 6,
+      "conf_upper": 12,
+      "factor": "Late-night residential entry when occupants sleep"
+    },
+    {
+      "period": "2025-W52",
+      "time_window": "New Year Eve 22:00-04:00",
+      "historic_count": 34,
+      "forecasted_count": 38,
+      "conf_lower": 30,
+      "conf_upper": 46,
+      "factor": "City-wide celebrations, alcohol disorder, street clashes"
+    }
+  ],
+  "non_tech_takeaway": "Predictions beyond 4-6 weeks out get shaky. Always refresh your time forecasts monthly and brief your team with the shaded confidence band, not a single hard number."
+}

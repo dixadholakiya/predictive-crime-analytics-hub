@@ -1,0 +1,6 @@
+incident_id,location_name,lat,lon,grid,crime_type,risk_score,primary_attractor
+LOC-101,Central Metro Station North Exit,28.6139,77.209,D4,Phone Snatching,92,High transit footfall + narrow bottleneck lane
+LOC-102,Sector 18 Commercial Market Alley,28.6145,77.2105,D5,Two-Wheeler Theft,85,"Unmonitored open parking, no CCTV"
+LOC-103,Ring Road Underpass Junction,28.612,77.2075,C4,Robbery / Mugging,78,"Poor street lighting after 9 PM, blind curve"
+LOC-104,Grand Trunk Service Road,28.616,77.212,E5,Truck Hijacking / Cargo Theft,64,"Heavy freight staging, isolated shoulder"
+LOC-105,Civic Center Bus Terminal,28.611,77.205,B3,Pickpocketing,88,Dense passenger boarding rush

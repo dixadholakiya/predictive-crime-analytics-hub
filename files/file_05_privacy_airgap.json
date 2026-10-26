@@ -1,0 +1,36 @@
+{
+  "id": "file_05_privacy_airgap",
+  "factor": "Data Privacy & Air-Gapped Local Model Processing",
+  "title": "Confidential FIRs & The Air-Gap Privacy Shield: Why We Never Use Cloud AI",
+  "simple_summary": "Police FIRs contain confidential citizen names, telephone numbers, Aadhaar/ID numbers, and exact home addresses. Uploading these into public cloud AI services (like public ChatGPT) violates statutory privacy acts. This file demonstrates how a local pre-trained model runs 100% offline inside the police network after stripping private citizen details.",
+  "key_concept": "Local Privacy Scrubbing + On-Premise LLM: Personal identifiers are tokenized locally (e.g., [PROTECTED_CITIZEN_01]) before feeding the data to an on-premise, offline model running on station hardware.",
+  "tools_used": [
+    "On-Station Private Model (Police-Llama-8B / Mistral-7B / DeepSeek-R1 Local)",
+    "Local Regex Privacy Redactor"
+  ],
+  "recommended_action": "Never connect the crime analysis workstation to public web LLM APIs. Keep the model weights local, log every briefing in an internal audit table, and enforce Human-in-the-Loop review.",
+  "dataset_sample": [
+    {
+      "fir_number": "FIR-2026-00892",
+      "confidential_raw_text": "Complainant Shri Ramesh Gupta, S/o Late O.P. Gupta, Residing at Flat 304, Green Palms Apt, Sector 4. Phone: 98112-44591. States that on 24-Oct night while family was away, unknown persons broke balcony grill and stole jewelry worth Rs 2 Lakhs.",
+      "sanitized_tokens": "Complainant: [PROTECTED_CITIZEN_01], Sector 4 Grid [D4], Crime: Burglary / Residential Break-In, Date: Friday 23:00, Entry_MO: Balcony grill forced latch, Stolen_Class: High-value jewelry",
+      "privacy_status": "Cleaned - No PII Leaked",
+      "local_model_extracted_insight": "Burglary cluster at Sector 4 Grid D4. Triggers 14-day Near-Repeat Alert for Green Palms block. Recommend 15-min patrol car stop between 22:30 - 02:00."
+    },
+    {
+      "fir_number": "FIR-2026-00898",
+      "confidential_raw_text": "Victim Sunita Kumari, age 24, mobile 99554-12345, walking near Metro Gate 2 towards H-Block. Motorcycle with 2 youths snatched purse containing iPhone and cash Rs 5000 at 20:15.",
+      "sanitized_tokens": "Victim: [PROTECTED_CITIZEN_02], Location: Metro Gate 2 Grid [D5], Crime: Snatching / Two-Wheeler Robbery, Time: 20:15, Vehicle_MO: Unregistered black bike, 2 riders",
+      "privacy_status": "Cleaned - No PII Leaked",
+      "local_model_extracted_insight": "Snatching at transit choke point. Risk Terrain match: dark curve near Metro Gate 2. Alert foot patrol constable for static watch during evening commute."
+    },
+    {
+      "fir_number": "FIR-2026-00912",
+      "confidential_raw_text": "Informant secret report: 3 individuals suspected of planning vehicle theft near Ring Road Truck Stop. Names: [Withheld Informant note].",
+      "sanitized_tokens": "Report: [CONFIDENTIAL_INTEL], Sector: Ring Road Grid [C4], Target: Commercial Vehicle Parts, Time_Risk: Midnight 01:00-04:00",
+      "privacy_status": "Cleaned - No PII Leaked",
+      "local_model_extracted_insight": "Safeguard Trigger: Place-Not-Person Rule applied. Model evaluates vehicle theft vulnerability at Ring Road truck stop; does not profile or score individuals."
+    }
+  ],
+  "non_tech_takeaway": "Zero bytes leave your station. The local model acts like an intelligent officer reading sanitized files on an offline screen, generating briefings without external internet dependency."
+}

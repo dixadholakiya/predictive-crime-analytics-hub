@@ -1,0 +1,66 @@
+{
+  "id": "file_01_location",
+  "factor": "Area & Location (Spatial Hotspotting)",
+  "title": "Predicting Crime by Location: Spatial Hotspots & KDE Analysis",
+  "simple_summary": "Why do crimes happen in specific places? Criminals look for easy getaways, crowds, and blind spots. By turning scattered incident pins into a smooth 200m-300m heat bubble, police see where risk clusters without guessing.",
+  "key_concept": "Kernel Density Estimation (KDE): Rather than looking at single addresses, we smooth points into density zones. A moving hotspot is more actionable than a static one.",
+  "tools_used": [
+    "QGIS (Free GIS software)",
+    "CrimeStat (Spatial statistics)",
+    "ArcGIS"
+  ],
+  "recommended_action": "10-15 minute high-visibility patrol stops at peak risk corners during forecasted hours.",
+  "dataset_sample": [
+    {
+      "incident_id": "LOC-101",
+      "location_name": "Central Metro Station North Exit",
+      "lat": 28.6139,
+      "lon": 77.209,
+      "grid": "D4",
+      "crime_type": "Phone Snatching",
+      "risk_score": 92,
+      "primary_attractor": "High transit footfall + narrow bottleneck lane"
+    },
+    {
+      "incident_id": "LOC-102",
+      "location_name": "Sector 18 Commercial Market Alley",
+      "lat": 28.6145,
+      "lon": 77.2105,
+      "grid": "D5",
+      "crime_type": "Two-Wheeler Theft",
+      "risk_score": 85,
+      "primary_attractor": "Unmonitored open parking, no CCTV"
+    },
+    {
+      "incident_id": "LOC-103",
+      "location_name": "Ring Road Underpass Junction",
+      "lat": 28.612,
+      "lon": 77.2075,
+      "grid": "C4",
+      "crime_type": "Robbery / Mugging",
+      "risk_score": 78,
+      "primary_attractor": "Poor street lighting after 9 PM, blind curve"
+    },
+    {
+      "incident_id": "LOC-104",
+      "location_name": "Grand Trunk Service Road",
+      "lat": 28.616,
+      "lon": 77.212,
+      "grid": "E5",
+      "crime_type": "Truck Hijacking / Cargo Theft",
+      "risk_score": 64,
+      "primary_attractor": "Heavy freight staging, isolated shoulder"
+    },
+    {
+      "incident_id": "LOC-105",
+      "location_name": "Civic Center Bus Terminal",
+      "lat": 28.611,
+      "lon": 77.205,
+      "grid": "B3",
+      "crime_type": "Pickpocketing",
+      "risk_score": 88,
+      "primary_attractor": "Dense passenger boarding rush"
+    }
+  ],
+  "non_tech_takeaway": "Never spread police thinly everywhere like butter. Concentrate short, visible 10-15 minute visits on the top 5% hotspot intersections to deter 50% of opportunistic crimes."
+}

@@ -1,0 +1,6 @@
+period,time_window,historic_count,forecasted_count,conf_lower,conf_upper,factor
+2025-W48,Friday Night 21:00-01:00,14,16,12,20,Month-end salary payout + weekend bars closing
+2025-W49,Sunday Afternoon 14:00-17:00,5,6,3,9,Standard baseline residential quiet period
+2025-W50,Holiday Week Evening 18:00-22:00,22,25,19,31,"Festival shopping rush, crowded jewelry markets"
+2025-W51,Midweek 03:00-05:00,8,9,6,12,Late-night residential entry when occupants sleep
+2025-W52,New Year Eve 22:00-04:00,34,38,30,46,"City-wide celebrations, alcohol disorder, street clashes"

@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predictive Crime Analytics & Prevention Hub</title>
+  <meta name="description" content="An interactive predictive policing training platform and dashboard for police officers and analysts.">
+  <link rel="stylesheet" href="style.css?v=3.0">
+  <!-- Load SheetJS for Excel Ingestion -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo-title">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          PredictShield
+        </h1>
+        <div class="logo-subtitle">Predictive Crime Analytics Hub</div>
+      </div>
+      <nav class="nav-menu">
+        <li class="nav-item active" data-target="overview-section">
+          <button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            Overview & The Big Idea
+          </button>
+        </li>
+        <li class="nav-item" data-target="airgap-lab-section">
+          <button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            🔒 Air-Gapped AI Lab
+          </button>
+        </li>
+        <li class="nav-item" data-target="factors-files-section">
+          <button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            📁 6 Factor Datasets & Guides
+          </button>
+        </li>
+        <li style="list-style: none;">
+          <a href="toolkit.html" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: var(--radius-sm); color: #0369a1; text-decoration: none; font-weight: 700; background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.2); margin: 4px 0; transition: var(--transition-fast);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            🛠️ 5 Hands-on Labs ↗
+          </a>
+        </li>
+        <li class="nav-item" data-target="data-section">
+          <button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Kaggle & Local Data
+          </button>
+        </li>
+        <li class="nav-item" data-target="predictor-section">
+          <button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.886H3.886L9.043 12.5l-1.931 5.943L12 14.75l4.888 3.693-1.931-5.943 5.157-3.614h-6.202L12 3Z"/></svg>
+            Live Predictor Suite
+          </button>
+        </li>
+        <li class="nav-item" data-target="live-monitor-section">
+          <button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><circle cx="12" cy="12" r="3"/></svg>
+            Live Monitoring Center
+          </button>
+        </li>
+        <li class="nav-item" data-target="simulators-section">
+          <button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            Technique Simulators
+          </button>
+        </li>
+        <li class="nav-item" data-target="allocator-section">
+          <button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Patrol Allocator Game
+          </button>
+        </li>
+        <li class="nav-item" data-target="tools-section">
+          <button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></svg>
+            Free Tools & Case Studies
+          </button>
+        </li>
+      </nav>
+      <div class="sidebar-footer">
+        PredictShield v1.3.0<br>Designed for Law Enforcement
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- SECTION 1: Overview & The Big Idea -->
+      <section id="overview-section" class="content-section active">
+        <div class="section-header">
+          <span class="section-badge">Core Concept</span>
+          <h2 class="section-title">The Big Idea in Predictive Policing</h2>
+          <p class="section-description">Shifting law enforcement from reactive responses to proactive crime prevention using historical data patterns.</p>
+        </div>
+
+        <div class="grid-layout">
+          <!-- Slide Presentation Card -->
+          <div class="glass-card span-8">
+            <div class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Presentation: Core Principles
+            </div>
+            
+            <div class="slide-container">
+              <div class="slide-content">
+                <h3 class="slide-title" id="slide-title">1. Reactive vs. Proactive Policing</h3>
+                <div class="slide-body" id="slide-body">
+                  Traditional policing operates on reaction: a crime occurs, a call is made, and officers respond. Predictive analytics changes this paradigm. By analyzing past crime patterns, we project where and when future crimes are highly likely, allowing officers to deploy beforehand.
+                </div>
+              </div>
+              <div class="slide-controls">
+                <button class="btn btn-outline" id="prev-slide-btn">Previous</button>
+                <div class="slide-dots" id="slide-dots">
+                  <!-- Generated by JS -->
+                </div>
+                <button class="btn btn-primary" id="next-slide-btn">Next Slide</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Highlight Panel -->
+          <div class="glass-card span-4">
+            <div class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m10.24 3.957 7.53 14a1 1 0 0 1-.883 1.474H3.113a1 1 0 0 1-.883-1.474l7.53-14z"/><path d="M10 9v4M10 17h.01"/></svg>
+              Crucial Rule for Officers
+            </div>
+            <div class="alert-box warning">
+              <strong>Predicts Places & Patterns, Not People!</strong>
+              <p style="margin-top: 8px; font-size: 0.9rem;">The system forecasts "Street block A has a high risk of theft between 9:00 PM and 11:00 PM." It does <strong>not</strong> target individuals or predict who will commit a crime.</p>
+            </div>
+
+            <div class="alert-box info">
+              <strong>The 5-Step Loop:</strong>
+              <ol style="margin-left: 20px; margin-top: 8px; font-size: 0.9rem; line-height: 1.5;">
+                <li><strong>Data Collection</strong> (Historical reports)</li>
+                <li><strong>Model Training</strong> (Analyzing patterns)</li>
+                <li><strong>Forecast generation</strong> (Risk maps)</li>
+                <li><strong>Tactical Action</strong> (Directed patrols)</li>
+                <li><strong>Feedback feed-in</strong> (Refining predictions)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: Air-Gapped AI Lab & Privacy Shield -->
+      <section id="airgap-lab-section" class="content-section">
+        <div class="section-header">
+          <span class="section-badge" style="background: rgba(5, 150, 105, 0.1); color: #059669; border-color: rgba(5, 150, 105, 0.3);">
+            🔒 Air-Gapped On-Premise AI · 100% Offline & Private
+          </span>
+          <h2 class="section-title">Live Air-Gapped Police AI & Local Model Practice Lab</h2>
+          <p class="section-description">
+            Police records contain confidential citizen complaints and sensitive victim information that <strong>cannot be uploaded to public cloud AI</strong> (like public ChatGPT or commercial APIs). This live hands-on practice lab demonstrates how police departments run pre-trained AI models <strong>100% locally inside station computers</strong> with zero data leakage.
+          </p>
+        </div>
+
+        <!-- Security Status Banner -->
+        <div class="security-badge-banner">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 14px; height: 14px; border-radius: 50%; background: #059669; box-shadow: 0 0 10px #059669; animation: pulse 2s infinite;"></div>
+            <div>
+              <strong style="color: #0f172a; font-size: 0.95rem;">AIR-GAP PRIVACY SHIELD: ACTIVE & VERIFIED</strong>
+              <div style="font-size: 0.8rem; color: #475569;">No internet connection required. All processing runs entirely on this device's memory.</div>
+            </div>
+          </div>
+          <div class="security-tags">
+            <span class="sec-tag offline">🔌 100% Offline Mode</span>
+            <span class="sec-tag private">🛡️ Cloud Data Leakage: 0.00%</span>
+            <span class="sec-tag cjis">⚖️ CJIS & Privacy Act Verified</span>
+          </div>
+        </div>
+
+        <!-- Visual Flow Diagram: Air-Gap Architecture -->
+        <div class="glass-card" style="margin-bottom: 24px; padding: 20px;">
+          <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Architecture Flow: Why Sensitive Crime Data Stays On-Premise</span>
+            <span class="status-tag safe" style="font-size: 0.75rem;">Interactive Visual Flow</span>
+          </div>
+          
+          <div style="margin-top: 14px; overflow-x: auto;">
+            <svg width="100%" height="160" viewBox="0 0 950 160" style="min-width: 800px; font-family: inherit;">
+              <defs>
+                <linearGradient id="flowGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#ef4444" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#ef4444" stop-opacity="0.05"/>
+                </linearGradient>
+                <linearGradient id="flowGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.12"/>
+                  <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.12"/>
+                </linearGradient>
+                <linearGradient id="flowGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#059669" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#10b981" stop-opacity="0.05"/>
+                </linearGradient>
+                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b" />
+                </marker>
+              </defs>
+
+              <!-- Node 1: Raw FIRs -->
+              <rect x="10" y="30" width="160" height="90" rx="10" fill="#ffffff" stroke="#ef4444" stroke-width="2"/>
+              <text x="90" y="55" text-anchor="middle" font-weight="700" font-size="12" fill="#b91c1c">1. Raw Police FIRs</text>
+              <text x="90" y="75" text-anchor="middle" font-size="10" fill="#475569">Victim Names & Phones</text>
+              <text x="90" y="92" text-anchor="middle" font-size="10" fill="#475569">Home Street Doors</text>
+              <text x="90" y="108" text-anchor="middle" font-weight="600" font-size="9" fill="#dc2626">⚠️ Sensitive Citizen PII</text>
+
+              <!-- Connector 1 -->
+              <line x1="170" y1="75" x2="215" y2="75" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Node 2: Privacy Redactor -->
+              <rect x="220" y="30" width="160" height="90" rx="10" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+              <text x="300" y="55" text-anchor="middle" font-weight="700" font-size="12" fill="#0369a1">2. Local Privacy Filter</text>
+              <text x="300" y="75" text-anchor="middle" font-size="10" fill="#475569">Scrubs Names & Numbers</text>
+              <text x="300" y="92" text-anchor="middle" font-size="10" fill="#475569">Converts to Spatial Grids</text>
+              <text x="300" y="108" text-anchor="middle" font-weight="600" font-size="9" fill="#0284c7">🛡️ Zero Cloud Upload</text>
+
+              <!-- Connector 2 -->
+              <line x1="380" y1="75" x2="425" y2="75" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Node 3: Local Pre-trained Model -->
+              <rect x="430" y="25" width="170" height="100" rx="12" fill="#ffffff" stroke="#4f46e5" stroke-width="2.5"/>
+              <text x="515" y="52" text-anchor="middle" font-weight="800" font-size="12" fill="#4338ca">3. On-Premise Local AI</text>
+              <text x="515" y="72" text-anchor="middle" font-size="10" fill="#475569">Pre-trained Local Weights</text>
+              <text x="515" y="88" text-anchor="middle" font-size="10" fill="#475569">(Police-Llama / Mistral)</text>
+              <text x="515" y="104" text-anchor="middle" font-weight="700" font-size="9" fill="#4f46e5">⚡ Runs in Station GPU</text>
+              <text x="515" y="117" text-anchor="middle" font-size="9" fill="#059669">Near-Repeat & KDE Logic</text>
+
+              <!-- Connector 3 -->
+              <line x1="600" y1="75" x2="645" y2="75" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Node 4: Human-in-the-Loop Officer -->
+              <rect x="650" y="30" width="140" height="90" rx="10" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+              <text x="720" y="55" text-anchor="middle" font-weight="700" font-size="12" fill="#047857">4. Officer Review</text>
+              <text x="720" y="75" text-anchor="middle" font-size="10" fill="#475569">Human-in-the-Loop</text>
+              <text x="720" y="92" text-anchor="middle" font-size="10" fill="#475569">Can Accept or Override</text>
+              <text x="720" y="108" text-anchor="middle" font-weight="600" font-size="9" fill="#059669">✅ Non-Negotiable Rule</text>
+
+              <!-- Connector 4 -->
+              <line x1="790" y1="75" x2="825" y2="75" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Node 5: Directed Patrol -->
+              <rect x="830" y="30" width="110" height="90" rx="10" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+              <text x="885" y="55" text-anchor="middle" font-weight="700" font-size="12" fill="#b45309">5. Action</text>
+              <text x="885" y="75" text-anchor="middle" font-size="10" fill="#475569">10-15 Min Stop</text>
+              <text x="885" y="92" text-anchor="middle" font-size="10" fill="#475569">High Visibility</text>
+              <text x="885" y="108" text-anchor="middle" font-weight="600" font-size="9" fill="#d97706">🚔 Koper Rule</text>
+
+              <!-- Blocked Public Cloud Indicator -->
+              <g transform="translate(450, 132)">
+                <rect x="-10" y="-8" width="220" height="24" rx="12" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+                <text x="100" y="8" text-anchor="middle" font-weight="700" font-size="9" fill="#b91c1c">🚫 Public Cloud AI: DISCONNECTED</text>
+              </g>
+            </svg>
+          </div>
+          <div style="font-size: 0.85rem; color: #475569; margin-top: 10px; background: var(--color-bg); padding: 10px 14px; border-radius: 8px;">
+            💡 <strong>Simple Words for Non-Techies:</strong> Think of public cloud AI like putting private citizen complaints on a public billboard. Our <strong>Air-Gapped Local Model</strong> is like an intelligent offline detective working inside a locked room in your station—answering questions instantly, without any internet wire connected.
+          </div>
+        </div>
+
+        <!-- 5-Step Interactive Practice Flow Bar -->
+        <div class="flow-steps-bar" id="airgap-steps-nav">
+          <button class="flow-step-btn active" data-step="1">
+            <span class="step-num">1</span>
+            <span>🛡️ Privacy Filter</span>
+          </button>
+          <button class="flow-step-btn" data-step="2">
+            <span class="step-num">2</span>
+            <span>🧠 Local Model Choice</span>
+          </button>
+          <button class="flow-step-btn" data-step="3">
+            <span class="step-num">3</span>
+            <span>📊 Predictive Sliders</span>
+          </button>
+          <button class="flow-step-btn" data-step="4">
+            <span class="step-num">4</span>
+            <span>🤖 Agentic Briefing</span>
+          </button>
+          <button class="flow-step-btn" data-step="5">
+            <span class="step-num">5</span>
+            <span>👮 Human Decision</span>
+          </button>
+        </div>
+
+        <!-- STEP 1 PANEL: Privacy Firewall & Redaction -->
+        <div class="airgap-step-panel" id="step-panel-1">
+          <div class="grid-layout">
+            <div class="glass-card span-5">
+              <div class="card-title">Step 1: Ingest & Sanitize Police Incident</div>
+              <p style="font-size: 0.88rem; color: var(--color-text-muted); margin-bottom: 14px;">
+                Choose a realistic police FIR scenario below, or paste your own mock incident text.
+              </p>
+
+              <div class="input-group">
+                <label class="input-label">Select Sample Police Incident Scenario</label>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <button class="btn btn-outline fir-scenario-btn active" data-scenario="burglary" style="text-align: left; padding: 10px 12px; font-size: 0.85rem;">
+                    🏠 <strong>FIR-2026/089:</strong> Residential Burglary (Green Palms, Sector 4)
+                  </button>
+                  <button class="btn btn-outline fir-scenario-btn" data-scenario="snatching" style="text-align: left; padding: 10px 12px; font-size: 0.85rem;">
+                    👜 <strong>FIR-2026/104:</strong> ATM Corner Purse Snatching (Metro Exit)
+                  </button>
+                  <button class="btn btn-outline fir-scenario-btn" data-scenario="vehicle" style="text-align: left; padding: 10px 12px; font-size: 0.85rem;">
+                    🛵 <strong>FIR-2026/142:</strong> Two-Wheeler Theft Cluster (Unlit Parking)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Sanitization Strictness Slider -->
+              <div style="margin-top: 18px; background: var(--color-bg); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <label class="input-label" style="margin: 0; font-weight: 700;">Local Sanitization Strictness</label>
+                  <span id="strictness-level-label" class="status-tag safe" style="font-size: 0.75rem;">Level 2: Strict Grid</span>
+                </div>
+                <input type="range" id="sanitization-slider" min="1" max="3" value="2" step="1" style="width: 100%; margin-top: 8px; accent-color: var(--color-primary);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-muted); margin-top: 4px;">
+                  <span>1. Standard</span>
+                  <span>2. Strict Grid (Recommended)</span>
+                  <span>3. Max Air-Gap</span>
+                </div>
+              </div>
+
+              <div style="margin-top: 18px;">
+                <button class="btn btn-primary" id="run-redaction-btn" style="width: 100%; padding: 12px; font-weight: 700;">
+                  🛡️ Run Local Privacy Scrubbing
+                </button>
+              </div>
+            </div>
+
+            <!-- Redaction Diff Viewer -->
+            <div class="glass-card span-7">
+              <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Local Privacy Diff (Zero Cloud Contact)</span>
+                <span class="status-tag safe" id="redaction-badge" style="font-size: 0.75rem;">Verified Cleaned</span>
+              </div>
+
+              <div class="redaction-grid">
+                <div class="diff-box raw">
+                  <div style="font-weight: 700; color: #b91c1c; margin-bottom: 8px; font-size: 0.8rem; text-transform: uppercase;">
+                    ⚠️ Raw Confidential Police Record
+                  </div>
+                  <div id="raw-fir-display">
+                    Complainant <span class="pii-highlight">Shri Ramesh Gupta</span>, S/o Late O.P. Gupta, residing at <span class="pii-highlight">Flat 304, Green Palms Apt, Sector 4</span>. Mobile: <span class="pii-highlight">98112-44591</span>. States that on 24-Oct night at approximately 23:00 while family was away, unknown suspects broke balcony grill latch and stole gold ornaments worth ₹2,00,000.
+                  </div>
+                </div>
+
+                <div class="diff-box cleaned">
+                  <div style="font-weight: 700; color: #047857; margin-bottom: 8px; font-size: 0.8rem; text-transform: uppercase;">
+                    ✅ Sanitized Feature Matrix (Safe for Local Model)
+                  </div>
+                  <div id="cleaned-fir-display">
+                    Complainant: <span class="token-highlight">[PROTECTED_CITIZEN_01]</span><br>
+                    Spatial Coordinate: <span class="token-highlight">Sector 4, Grid [D4]</span><br>
+                    Incident Type: <span class="token-highlight">Burglary / Break-In</span><br>
+                    Time Window: <span class="token-highlight">Friday 22:30 - 00:00</span><br>
+                    Modus Operandi: <span class="token-highlight">Balcony grill forced latch</span><br>
+                    Property Class: <span class="token-highlight">High-Value Residential</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="alert-box info" style="margin-top: 14px;">
+                <strong>Plain-English Takeaway:</strong> Notice how all real names and telephone numbers were erased on your own machine. Even if an attacker inspected the model's memory, <strong>zero personal citizen information exists</strong>.
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+                <button class="btn btn-primary" id="goto-step-2-btn">
+                  Next Step: Select Local Model ➔
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 PANEL: Local Model Selection & Personas -->
+        <div class="airgap-step-panel" id="step-panel-2" style="display: none;">
+          <div class="glass-card" style="margin-bottom: 20px;">
+            <div class="card-title">Step 2: Choose Your Pre-Trained Local Model & Multi-LLM Personas</div>
+            <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 16px;">
+              Your police station hardware hosts offline open-weights. Select a specialized pre-trained model architecture below:
+            </p>
+
+            <div class="model-card-grid">
+              <!-- Model 1 -->
+              <div class="local-model-card selected" data-model="llama">
+                <span class="local-model-badge">Active Selection</span>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                  <span style="font-size: 1.6rem;">🤖</span>
+                  <div>
+                    <h4 style="font-size: 1rem; color: var(--color-text);">Police-Llama-8B</h4>
+                    <div style="font-size: 0.75rem; color: var(--color-primary); font-weight: 700;">Patrol Tactician Persona</div>
+                  </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  Optimized for speed and tactical shift planning. Recommends short, high-visibility 10-15 min stops (Koper rule) at forecasted risk locations.
+                </p>
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--color-border); font-size: 0.75rem; color: #475569; display: flex; justify-content: space-between;">
+                  <span>VRAM: 5.2 GB</span>
+                  <span>Speed: 44 tok/s</span>
+                  <span style="color: #059669; font-weight: 700;">Offline INT4</span>
+                </div>
+              </div>
+
+              <!-- Model 2 -->
+              <div class="local-model-card" data-model="mistral">
+                <span class="local-model-badge" style="display: none;">Active</span>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                  <span style="font-size: 1.6rem;">🕵️</span>
+                  <div>
+                    <h4 style="font-size: 1rem; color: var(--color-text);">Mistral-7B Edge</h4>
+                    <div style="font-size: 0.75rem; color: #0284c7; font-weight: 700;">MO & Detective Persona</div>
+                  </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  Specializes in Modus Operandi (entry methods, tools, escape corridors) and calculates 14-day Near-Repeat contagion perimeters.
+                </p>
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--color-border); font-size: 0.75rem; color: #475569; display: flex; justify-content: space-between;">
+                  <span>VRAM: 4.8 GB</span>
+                  <span>Speed: 38 tok/s</span>
+                  <span style="color: #059669; font-weight: 700;">Offline INT4</span>
+                </div>
+              </div>
+
+              <!-- Model 3 -->
+              <div class="local-model-card" data-model="deepseek">
+                <span class="local-model-badge" style="display: none;">Active</span>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                  <span style="font-size: 1.6rem;">⚖️</span>
+                  <div>
+                    <h4 style="font-size: 1rem; color: var(--color-text);">DeepSeek-R1 Local</h4>
+                    <div style="font-size: 0.75rem; color: #059669; font-weight: 700;">Safeguards & Ethics Auditor</div>
+                  </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  Step-by-step reasoning that verifies the "Place, Not Person" rule, prevents feedback loop traps, and guarantees minimum baseline patrol floors.
+                </p>
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--color-border); font-size: 0.75rem; color: #475569; display: flex; justify-content: space-between;">
+                  <span>VRAM: 6.8 GB</span>
+                  <span>Speed: 29 tok/s</span>
+                  <span style="color: #059669; font-weight: 700;">Offline INT4</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hardware Telemetry Bar -->
+            <div style="background: #0f172a; color: #e2e8f0; border-radius: var(--radius-sm); padding: 14px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; font-family: monospace; font-size: 0.82rem;">
+              <span>💾 Station Host: <strong style="color: #38bdf8;">Police-HQ-Node-01</strong></span>
+              <span>⚡ Inference Engine: <strong style="color: #4ade80;">ONNX / WebGPU Local</strong></span>
+              <span>📶 External Packets: <strong style="color: #f87171;">0 sent (Severed)</strong></span>
+              <span>🔒 Model Weight Path: <code style="color: #fde047;">/local_vault/police_model.gguf</code></span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+              <button class="btn btn-outline" id="backto-step-1-btn">⬅️ Back to Step 1</button>
+              <button class="btn btn-primary" id="goto-step-3-btn">Next Step: Predictive Sliders & Map ➔</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 PANEL: Real-Time Predictive Sliders & Map -->
+        <div class="airgap-step-panel" id="step-panel-3" style="display: none;">
+          <div class="grid-layout">
+            <!-- Left Controls: Real-time Sliders -->
+            <div class="glass-card span-5">
+              <div class="card-title">Step 3: Real-Time Interactive Sliders</div>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 16px;">
+                Adjust the sliders below in real time to see how time decay, patrol radius, and safeguards immediately change the risk zone.
+              </p>
+
+              <!-- Slider 1: Near-Repeat Days Elapsed -->
+              <div style="margin-bottom: 20px; background: var(--color-bg); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 0.85rem;">1. Days Since Burglary</strong>
+                  <span id="slider-days-val" class="status-tag danger" style="font-size: 0.8rem; font-weight: 700;">Day 3 (Peak Risk 4.2x)</span>
+                </div>
+                <input type="range" id="realtime-days-slider" min="1" max="30" value="3" style="width: 100%; margin-top: 10px; accent-color: var(--color-danger);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-muted); margin-top: 4px;">
+                  <span>Day 1 (Critical)</span>
+                  <span>Day 14 (Medium)</span>
+                  <span>Day 28+ (Baseline)</span>
+                </div>
+                <p style="font-size: 0.78rem; color: #475569; margin-top: 6px;">
+                  💡 <em>Slide to Day 15 or 25 to watch the danger bubble shrink as the burglar moves on!</em>
+                </p>
+              </div>
+
+              <!-- Slider 2: Hotspot Bandwidth Radius -->
+              <div style="margin-bottom: 20px; background: var(--color-bg); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 0.85rem;">2. Hotspot Radius (KDE)</strong>
+                  <span id="slider-radius-val" class="status-tag warning" style="font-size: 0.8rem; font-weight: 700;">220 Metres</span>
+                </div>
+                <input type="range" id="realtime-radius-slider" min="100" max="450" value="220" step="10" style="width: 100%; margin-top: 10px; accent-color: var(--color-warning);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-muted); margin-top: 4px;">
+                  <span>100m (Tight Alley)</span>
+                  <span>250m (Urban Beat)</span>
+                  <span>450m (Sprawling)</span>
+                </div>
+              </div>
+
+              <!-- Slider 3: Baseline Patrol Floor (Slide 16 Safeguard) -->
+              <div style="margin-bottom: 20px; background: var(--color-bg); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 0.85rem;">3. Baseline Patrol Floor</strong>
+                  <span id="slider-floor-val" class="status-tag safe" style="font-size: 0.8rem; font-weight: 700;">25% Guaranteed</span>
+                </div>
+                <input type="range" id="realtime-floor-slider" min="0" max="50" value="25" step="5" style="width: 100%; margin-top: 10px; accent-color: var(--color-success);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-muted); margin-top: 4px;">
+                  <span style="color: #dc2626;">0% (Feedback Trap!)</span>
+                  <span>25% (Safe)</span>
+                  <span>50% (High Floor)</span>
+                </div>
+                <div id="bias-risk-indicator" style="font-size: 0.78rem; font-weight: 600; color: #059669; margin-top: 6px;">
+                  ✅ Feedback Loop Protected: Unpredicted beats still get baseline visits.
+                </div>
+              </div>
+
+              <!-- Environmental Risk Layers Toggles (RTM) -->
+              <div>
+                <label class="input-label" style="font-weight: 700;">Risk Terrain Layers (RTM Factors)</label>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+                  <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer;">
+                    <input type="checkbox" id="layer-atm" checked style="width: 16px; height: 16px;">
+                    <span>🏦 Cash Point / ATM within 80m (+25% risk)</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer;">
+                    <input type="checkbox" id="layer-lighting" checked style="width: 16px; height: 16px;">
+                    <span>💡 Poor Street Lighting reported (+35% risk)</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer;">
+                    <input type="checkbox" id="layer-liquor" checked style="width: 16px; height: 16px;">
+                    <span>🍺 Late-Night Alcohol Vend within 150m (+30% risk)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Visual: Real-Time Interactive Canvas Map -->
+            <div class="glass-card span-7">
+              <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Live Spatio-Temporal Risk Visualizer</span>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                  <span style="font-size: 0.8rem; font-weight: 700; color: var(--color-text-muted);">PAI Score:</span>
+                  <span id="live-pai-metric" class="status-tag safe" style="font-size: 0.85rem; font-weight: 800;">3.8x (Effective)</span>
+                </div>
+              </div>
+
+              <!-- Live SVG Map -->
+              <div style="background: #0f172a; border-radius: var(--radius-md); padding: 12px; margin: 12px 0; border: 1px solid #334155; position: relative; overflow: hidden;">
+                <svg id="live-risk-map" width="100%" height="320" viewBox="0 0 500 320" style="display: block;">
+                  <!-- Grid Lines -->
+                  <defs>
+                    <pattern id="smallGrid" width="25" height="25" patternUnits="userSpaceOnUse">
+                      <path d="M 25 0 L 0 0 0 25" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                    </pattern>
+                  </defs>
+                  <rect width="500" height="320" fill="#0f172a"/>
+                  <rect width="500" height="320" fill="url(#smallGrid)"/>
+
+                  <!-- Street Blocks -->
+                  <rect x="50" y="40" width="100" height="70" rx="4" fill="#1e293b" stroke="#334155"/>
+                  <text x="100" y="78" fill="#64748b" font-size="9" text-anchor="middle">Sector 4A</text>
+
+                  <rect x="180" y="40" width="130" height="70" rx="4" fill="#1e293b" stroke="#334155"/>
+                  <text x="245" y="78" fill="#64748b" font-size="9" text-anchor="middle">Green Palms Block</text>
+
+                  <rect x="340" y="40" width="110" height="70" rx="4" fill="#1e293b" stroke="#334155"/>
+                  <text x="395" y="78" fill="#64748b" font-size="9" text-anchor="middle">Market Plaza</text>
+
+                  <rect x="50" y="160" width="100" height="90" rx="4" fill="#1e293b" stroke="#334155"/>
+                  <text x="100" y="210" fill="#64748b" font-size="9" text-anchor="middle">Sector 4B</text>
+
+                  <rect x="180" y="160" width="130" height="90" rx="4" fill="#1e293b" stroke="#334155"/>
+                  <text x="245" y="210" fill="#64748b" font-size="9" text-anchor="middle">Metro North Exit</text>
+
+                  <rect x="340" y="160" width="110" height="90" rx="4" fill="#1e293b" stroke="#334155"/>
+                  <text x="395" y="210" fill="#64748b" font-size="9" text-anchor="middle">Commercial Lot</text>
+
+                  <!-- Roads -->
+                  <line x1="165" y1="20" x2="165" y2="300" stroke="#334155" stroke-width="8" stroke-dasharray="8 4"/>
+                  <line x1="325" y1="20" x2="325" y2="300" stroke="#334155" stroke-width="8" stroke-dasharray="8 4"/>
+                  <line x1="30" y1="130" x2="470" y2="130" stroke="#334155" stroke-width="12"/>
+
+                  <!-- Environmental Hazards (RTM) -->
+                  <g id="map-hazard-atm">
+                    <circle cx="360" cy="180" r="10" fill="#0284c7" opacity="0.3"/>
+                    <circle cx="360" cy="180" r="4" fill="#38bdf8"/>
+                    <text x="360" y="170" fill="#38bdf8" font-size="8" text-anchor="middle">ATM</text>
+                  </g>
+
+                  <g id="map-hazard-lighting">
+                    <circle cx="210" cy="115" r="10" fill="#eab308" opacity="0.25"/>
+                    <circle cx="210" cy="115" r="4" fill="#facc15"/>
+                    <text x="210" y="105" fill="#facc15" font-size="8" text-anchor="middle">💡 Dark Lane</text>
+                  </g>
+
+                  <g id="map-hazard-liquor">
+                    <circle cx="350" cy="65" r="10" fill="#ec4899" opacity="0.25"/>
+                    <circle cx="350" cy="65" r="4" fill="#f472b6"/>
+                    <text x="350" y="55" fill="#f472b6" font-size="8" text-anchor="middle">🍺 Vend</text>
+                  </g>
+
+                  <!-- Dynamic Near-Repeat Risk Halo (Controlled by Sliders!) -->
+                  <circle id="map-risk-halo-outer" cx="240" cy="95" r="85" fill="rgba(239, 68, 68, 0.15)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+                  <circle id="map-risk-halo-inner" cx="240" cy="95" r="45" fill="rgba(239, 68, 68, 0.35)" stroke="#dc2626" stroke-width="2"/>
+
+                  <!-- Origin Incident Pin -->
+                  <g id="map-incident-pin" transform="translate(240, 95)">
+                    <circle r="7" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+                    <circle r="2" fill="#ffffff"/>
+                    <text x="0" y="-12" fill="#fca5a5" font-weight="700" font-size="9" text-anchor="middle">House 42 (Hit)</text>
+                  </g>
+
+                  <!-- Neighbor Houses (Near-Repeat Targets) -->
+                  <circle cx="215" cy="85" r="4" fill="#fb923c" stroke="#ffffff" stroke-width="1"/>
+                  <text x="215" y="75" fill="#fdba74" font-size="7" text-anchor="middle">#40</text>
+
+                  <circle cx="265" cy="85" r="4" fill="#fb923c" stroke="#ffffff" stroke-width="1"/>
+                  <text x="265" y="75" fill="#fdba74" font-size="7" text-anchor="middle">#44</text>
+
+                  <!-- Suggested 15-Min Patrol Stop Marker -->
+                  <g id="map-patrol-marker" transform="translate(240, 130)">
+                    <rect x="-18" y="-9" width="36" height="18" rx="4" fill="#3b82f6" stroke="#ffffff" stroke-width="1.5"/>
+                    <text x="0" y="3" fill="#ffffff" font-weight="800" font-size="8" text-anchor="middle">🚔 PCR 4</text>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Live Metrics Card -->
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
+                <div style="background: var(--color-bg); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); text-align: center;">
+                  <div style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 700;">NEAR-REPEAT WINDOW</div>
+                  <div id="stat-window-days" style="font-size: 1.1rem; font-weight: 800; color: #dc2626; margin-top: 2px;">11 Days Left</div>
+                </div>
+                <div style="background: var(--color-bg); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); text-align: center;">
+                  <div style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 700;">ADJACENT HOUSE RISK</div>
+                  <div id="stat-house-risk" style="font-size: 1.1rem; font-weight: 800; color: #d97706; margin-top: 2px;">3.8x Elevated</div>
+                </div>
+                <div style="background: var(--color-bg); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); text-align: center;">
+                  <div style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 700;">PEI EFFICIENCY</div>
+                  <div id="stat-pei-val" style="font-size: 1.1rem; font-weight: 800; color: #059669; margin-top: 2px;">0.86 (Optimal)</div>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; margin-top: 16px;">
+                <button class="btn btn-outline" id="backto-step-2-btn">⬅️ Back to Step 2</button>
+                <button class="btn btn-primary" id="goto-step-4-btn">Next Step: Run Agentic AI Briefing ➔</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 PANEL: Transparent Agentic AI Thought Stream & Briefing Card -->
+        <div class="airgap-step-panel" id="step-panel-4" style="display: none;">
+          <div class="grid-layout">
+            <!-- Left: Transparent Agentic Chain of Thought -->
+            <div class="glass-card span-6">
+              <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Step 4: Agentic AI Reasoning Stream</span>
+                <span class="status-tag info" style="font-size: 0.75rem;">Explainable AI</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 12px;">
+                Instead of giving an unexplained black-box output, the local model displays its step-by-step thinking for officer review:
+              </p>
+
+              <div class="agent-thought-container" id="agent-thought-box">
+                <div class="thought-header">
+                  <span style="color: #38bdf8; font-weight: 700;">🧠 Agentic AI Thought Process</span>
+                  <span style="color: #94a3b8; font-size: 0.75rem;">Offline Inference</span>
+                </div>
+
+                <div class="thought-step active">
+                  <span class="thought-step-tag">[1. Ingest & Tokenize]</span>
+                  <span>Received sanitized incident: Sector 4 Grid [D4], Burglary at Friday 23:00. PII successfully stripped locally.</span>
+                </div>
+
+                <div class="thought-step active">
+                  <span class="thought-step-tag">[2. Pattern Match]</span>
+                  <span>Detected Technique 4 (Near-Repeat Contagion). Burglary occurred on Day 3. High-risk window active for next 14 days for adjacent properties within 200m.</span>
+                </div>
+
+                <div class="thought-step safeguard">
+                  <span class="thought-step-tag" style="color: #4ade80;">[3. Safeguards & Ethics Verification]</span>
+                  <span>Rule check: PLACE & TIME only (No citizen profiled). Feedback loop prevented: Beat 7 baseline floor locked at 25%.</span>
+                </div>
+
+                <div class="thought-step active">
+                  <span class="thought-step-tag">[4. Formulate Tactic]</span>
+                  <span>Applied Koper Rule: 12-minute high-visibility patrol car halt with roof beacons at 22:45 creates residual deterrence without tying up emergency response.</span>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; margin-top: 16px;">
+                <button class="btn btn-outline" id="backto-step-3-btn">⬅️ Back to Step 3</button>
+                <button class="btn btn-outline" id="regenerate-thought-btn">🔄 Re-run Agent Reasoning</button>
+              </div>
+            </div>
+
+            <!-- Right: The Operational Officer Briefing Card -->
+            <div class="glass-card span-6">
+              <div class="card-title">Generated Tactical Briefing Card</div>
+
+              <div class="officer-briefing-card" id="printable-briefing-card">
+                <div style="font-size: 1.15rem; font-weight: 800; color: var(--color-primary); margin-bottom: 6px;">
+                  Patrol Directives: Sector 4 Near-Repeat Zone
+                </div>
+                <div style="font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 16px;">
+                  Issued by On-Station Local Police Model · Verified by Duty Officer
+                </div>
+
+                <div class="briefing-highlight-box">
+                  <div class="briefing-cell">
+                    <div class="cell-title">WHERE (PLACE)</div>
+                    <div class="cell-value">Sector 4, Green Palms Lane</div>
+                  </div>
+                  <div class="briefing-cell">
+                    <div class="cell-title">WHEN (TIME)</div>
+                    <div class="cell-value">22:30 - 00:30 (Peak)</div>
+                  </div>
+                  <div class="briefing-cell">
+                    <div class="cell-title">TACTIC</div>
+                    <div class="cell-value" style="color: var(--color-primary);">12-Min Stop (Koper)</div>
+                  </div>
+                  <div class="briefing-cell">
+                    <div class="cell-title">RADIUS</div>
+                    <div class="cell-value" style="color: #059669;">200m Perimeter</div>
+                  </div>
+                </div>
+
+                <div style="margin-top: 14px; font-size: 0.88rem; line-height: 1.6;">
+                  <strong>🗣️ Plain-Language Explanation (Ready for Public Questions):</strong><br>
+                  <p style="margin-top: 4px; color: var(--color-text-muted); font-size: 0.85rem;">
+                    <em>"Officers are conducting brief high-visibility deterrence stops on Green Palms Lane because a residential break-in occurred nearby 3 days ago. Criminology shows neighboring homes face heightened risk for 14 days while the offender remains active."</em>
+                  </p>
+                </div>
+
+                <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem;">
+                  <span style="color: #059669; font-weight: 700;">✅ Human Approval Required Before Dispatch</span>
+                  <button class="btn btn-outline" id="print-briefing-btn" style="padding: 4px 10px; font-size: 0.75rem;">🖨️ Print / Save Briefing</button>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: 14px;">
+                <button class="btn btn-primary" id="goto-step-5-btn">Next Step: Human Decision & Override ➔</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5 PANEL: Human-in-the-Loop Decision & Station Audit Ledger -->
+        <div class="airgap-step-panel" id="step-panel-5" style="display: none;">
+          <div class="glass-card" style="margin-bottom: 24px;">
+            <div class="card-title">Step 5: Human Officer Decision & Station Audit Ledger</div>
+            <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 16px;">
+              <strong>Slide 16 Safeguard:</strong> The computer model never commands; it only informs the briefing. An officer always reviews, approves, or overrides.
+            </p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 20px;">
+              <button class="btn btn-primary" id="accept-briefing-btn" style="flex: 1; padding: 14px; font-size: 0.95rem; font-weight: 700; background: #059669; border-color: #059669;">
+                ✅ Accept Model Briefing & Dispatch Patrol
+              </button>
+              <button class="btn btn-outline" id="override-briefing-btn" style="flex: 1; padding: 14px; font-size: 0.95rem; font-weight: 700; border-color: #d97706; color: #d97706;">
+                ⚠️ Challenge / Override Model (Officer Discretion)
+              </button>
+            </div>
+
+            <!-- Override Explanation Box (Shows when Override clicked) -->
+            <div id="override-input-container" style="display: none; margin-bottom: 20px; background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius-sm); padding: 16px;">
+              <label class="input-label" style="color: #92400e; font-weight: 700;">Reason for Officer Override (Logged to Audit Trail):</label>
+              <input type="text" id="override-reason-input" class="form-control" placeholder="E.g., Road under construction tonight; diverted patrol to Sector 4 Market entrance" style="margin-top: 8px;">
+              <button class="btn btn-primary" id="submit-override-btn" style="margin-top: 10px; background: #d97706; border-color: #d97706;">
+                Confirm Override & Log to Ledger
+              </button>
+            </div>
+
+            <!-- Station Audit Log Ledger -->
+            <div class="card-title" style="margin-top: 24px; font-size: 0.95rem;">Station Audit Ledger (Non-Negotiable Slide 16 Audit Trail)</div>
+            <div class="table-container" style="max-height: 260px; overflow-y: auto;">
+              <table class="custom-table" id="audit-log-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Sanitized FIR ID</th>
+                    <th>Model Used</th>
+                    <th>Forecasted Location</th>
+                    <th>Officer Decision</th>
+                    <th>Human Override Note</th>
+                    <th>Compliance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight: 600;">Today 11:15</td>
+                    <td>FIR-2026/089</td>
+                    <td>Police-Llama-8B</td>
+                    <td>Sector 4, Green Palms</td>
+                    <td><span class="status-tag safe" style="font-size: 0.75rem;">Approved</span></td>
+                    <td style="color: var(--color-text-muted);">None (Standard Koper patrol)</td>
+                    <td><span class="status-tag safe" style="font-size: 0.75rem;">Place Only</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: 600;">Yesterday 21:30</td>
+                    <td>FIR-2026/082</td>
+                    <td>Mistral-7B</td>
+                    <td>Ring Road Junction</td>
+                    <td><span class="status-tag warning" style="font-size: 0.75rem;">Overridden</span></td>
+                    <td>Diverted to festival procession at Beat 1</td>
+                    <td><span class="status-tag safe" style="font-size: 0.75rem;">Human Logged</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+              <button class="btn btn-outline" id="backto-step-4-btn">⬅️ Back to Step 4</button>
+              <button class="btn btn-outline" id="restart-lab-btn">🔄 Practice Another Scenario</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Multi-LLM "Ask the Police AI" Plain-English Sandbox -->
+        <div class="glass-card" style="margin-top: 24px;">
+          <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.4rem;">💬</span>
+              <span>Ask the Air-Gapped Police AI Copilot (Plain English for Non-Techies)</span>
+            </div>
+            <span class="status-tag safe" style="font-size: 0.75rem;">Zero Jargon Assistant</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--color-text-muted); margin-bottom: 12px;">
+            Click any plain question chip below or type your own question to see how the local model explains complex predictive policing concepts in simple everyday words.
+          </p>
+
+          <!-- Clickable Prompt Chips -->
+          <div class="prompt-chips-group">
+            <button class="prompt-chip" data-prompt="Explain Near-Repeat like I am 10 years old">
+              💡 Explain Near-Repeat simply
+            </button>
+            <button class="prompt-chip" data-prompt="Why can't police upload FIRs into ChatGPT or public AI?">
+              🔒 Why can't we use ChatGPT?
+            </button>
+            <button class="prompt-chip" data-prompt="What is the 10-15 minute Koper patrol rule?">
+              ⏱️ What is the 10-15 min rule?
+            </button>
+            <button class="prompt-chip" data-prompt="What does PAI score 3.2 mean in plain English?">
+              🎯 What does PAI score 3.2 mean?
+            </button>
+            <button class="prompt-chip" data-prompt="Why did PredPol fail in the United States?">
+              ⚖️ What went wrong with PredPol in USA?
+            </button>
+            <button class="prompt-chip" data-prompt="Can a computer model predict WHO will commit a crime?">
+              🚫 Can AI predict individual criminals?
+            </button>
+          </div>
+
+          <!-- Q&A Box -->
+          <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+            <input type="text" id="ai-chat-input" class="form-control" placeholder="Ask any question in plain English (e.g., 'How does QGIS make a heatmap?')" style="flex: 1;">
+            <button class="btn btn-primary" id="ai-chat-send-btn" style="padding: 10px 20px; font-weight: 700;">
+              Ask Local AI
+            </button>
+          </div>
+
+          <!-- AI Response Card -->
+          <div id="ai-chat-response" style="background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 18px; font-size: 0.92rem; line-height: 1.6; display: block;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span id="ai-response-avatar" style="font-size: 1.2rem;">🤖</span>
+              <strong id="ai-response-model-name" style="color: var(--color-primary);">Police-Llama-8B (Plain-English Copilot):</strong>
+            </div>
+            <div id="ai-response-text" style="color: var(--color-text);">
+              Hello Officer! I am your offline, on-station AI guide. Ask me anything about hotspot maps, near-repeat break-ins, or why we never predict people. Everything stays 100% inside this station computer.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: 6 Factor Datasets & Guides -->
+      <section id="factors-files-section" class="content-section">
+        <div class="section-header">
+          <span class="section-badge" style="background: rgba(79, 70, 229, 0.1); color: #4f46e5; border-color: rgba(79, 70, 229, 0.3);">
+            📁 6 Structured Factor Modules
+          </span>
+          <h2 class="section-title">Crime Prediction Factors: Files, Data & Interactive Guides</h2>
+          <p class="section-description">
+            Complete datasets and non-technical guides covering crime prediction based on <strong>Area/Location</strong>, <strong>Time & Season</strong>, <strong>Near-Repeat Contagion</strong>, <strong>Environmental Features</strong>, <strong>Confidential FIRs</strong>, and <strong>Model Safeguards</strong>.
+          </p>
+        </div>
+
+        <!-- 6 Factor Files Cards Grid -->
+        <div class="files-grid" id="factor-files-grid">
+          <!-- Card 1: Area & Location -->
+          <div class="file-card">
+            <div>
+              <span class="file-factor-badge" style="background: #e0e7ff; color: #4338ca;">Factor 1: Area & Location</span>
+              <h3 style="font-size: 1.05rem; color: var(--color-text); margin: 6px 0;">01. Spatial Hotspots & KDE Mapping</h3>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; margin-top: 6px;">
+                How turning scattered incident pins into 200m-300m density bubbles reveals where criminal risk clusters without guessing.
+              </p>
+              <div style="margin-top: 10px; font-size: 0.78rem; color: #475569;">
+                <strong>Tools:</strong> QGIS Heatmap, CrimeStat, ArcGIS<br>
+                <strong>File:</strong> <code>01_location_spatial_hotspots.json / .csv</code>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button class="btn btn-outline preview-file-btn" data-file="01_location" style="flex: 1; padding: 6px; font-size: 0.8rem;">👁️ Preview</button>
+              <button class="btn btn-primary load-file-btn" data-file="01_location" style="flex: 1; padding: 6px; font-size: 0.8rem;">🚀 Load in Lab</button>
+            </div>
+          </div>
+
+          <!-- Card 2: Time & Temporal -->
+          <div class="file-card">
+            <div>
+              <span class="file-factor-badge" style="background: #fef3c7; color: #b45309;">Factor 2: Time & Season</span>
+              <h3 style="font-size: 1.05rem; color: var(--color-text); margin: 6px 0;">02. Temporal Trends & ETS Forecasting</h3>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; margin-top: 6px;">
+                Predicting payday spikes, Friday late-night surges, and festival peaks with Excel FORECAST.ETS and 95% confidence bands.
+              </p>
+              <div style="margin-top: 10px; font-size: 0.78rem; color: #475569;">
+                <strong>Tools:</strong> Excel FORECAST.ETS, Meta Prophet<br>
+                <strong>File:</strong> <code>02_time_temporal_patterns.json / .csv</code>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button class="btn btn-outline preview-file-btn" data-file="02_time" style="flex: 1; padding: 6px; font-size: 0.8rem;">👁️ Preview</button>
+              <button class="btn btn-primary load-file-btn" data-file="02_time" style="flex: 1; padding: 6px; font-size: 0.8rem;">🚀 Load in Lab</button>
+            </div>
+          </div>
+
+          <!-- Card 3: Near-Repeat Contagion -->
+          <div class="file-card">
+            <div>
+              <span class="file-factor-badge" style="background: #fee2e2; color: #b91c1c;">Factor 3: Near-Repeat Contagion</span>
+              <h3 style="font-size: 1.05rem; color: var(--color-text); margin: 6px 0;">03. Near-Repeat 2-4 Week Vulnerability</h3>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; margin-top: 6px;">
+                The single most reliable pattern in criminology: why homes within 200m of a burglary face 3-4x higher risk for 2-4 weeks.
+              </p>
+              <div style="margin-top: 10px; font-size: 0.78rem; color: #475569;">
+                <strong>Tools:</strong> Near-Repeat Calculator, Station FIR Ledger<br>
+                <strong>File:</strong> <code>03_near_repeat_contagion.json / .csv</code>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button class="btn btn-outline preview-file-btn" data-file="03_near_repeat" style="flex: 1; padding: 6px; font-size: 0.8rem;">👁️ Preview</button>
+              <button class="btn btn-primary load-file-btn" data-file="03_near_repeat" style="flex: 1; padding: 6px; font-size: 0.8rem;">🚀 Load in Lab</button>
+            </div>
+          </div>
+
+          <!-- Card 4: Environmental Features -->
+          <div class="file-card">
+            <div>
+              <span class="file-factor-badge" style="background: #e0f2fe; color: #0369a1;">Factor 4: Environmental Features</span>
+              <h3 style="font-size: 1.05rem; color: var(--color-text); margin: 6px 0;">04. Risk Terrain Modeling (RTM)</h3>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; margin-top: 6px;">
+                Predicting crime with zero past history by stacking environmental risk factors: ATMs, dark alleys, liquor vends, and transit exits.
+              </p>
+              <div style="margin-top: 10px; font-size: 0.78rem; color: #475569;">
+                <strong>Tools:</strong> QGIS Risk Stacking, Rutgers RTM<br>
+                <strong>File:</strong> <code>04_environmental_risk_terrain.json / .csv</code>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button class="btn btn-outline preview-file-btn" data-file="04_environmental" style="flex: 1; padding: 6px; font-size: 0.8rem;">👁️ Preview</button>
+              <button class="btn btn-primary load-file-btn" data-file="04_environmental" style="flex: 1; padding: 6px; font-size: 0.8rem;">🚀 Load in Lab</button>
+            </div>
+          </div>
+
+          <!-- Card 5: Confidential FIRs & Privacy Firewall -->
+          <div class="file-card">
+            <div>
+              <span class="file-factor-badge" style="background: #dcfce7; color: #15803d;">Factor 5: Privacy & Air-Gap</span>
+              <h3 style="font-size: 1.05rem; color: var(--color-text); margin: 6px 0;">05. Confidential FIRs Privacy Firewall</h3>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; margin-top: 6px;">
+                Why sensitive FIRs cannot be shared with public LLMs, and how local regex tokenization scrubs victim PII before on-premise AI sees it.
+              </p>
+              <div style="margin-top: 10px; font-size: 0.78rem; color: #475569;">
+                <strong>Tools:</strong> Local Regex Privacy Redactor, Offline Llama<br>
+                <strong>File:</strong> <code>05_confidential_firs_privacy_firewall.json</code>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button class="btn btn-outline preview-file-btn" data-file="05_privacy_airgap" style="flex: 1; padding: 6px; font-size: 0.8rem;">👁️ Preview</button>
+              <button class="btn btn-primary load-file-btn" data-file="05_privacy_airgap" style="flex: 1; padding: 6px; font-size: 0.8rem;">🚀 Load in Lab</button>
+            </div>
+          </div>
+
+          <!-- Card 6: Model Evaluation & Safeguards -->
+          <div class="file-card">
+            <div>
+              <span class="file-factor-badge" style="background: #f3e8ff; color: #7e22ce;">Factor 6: Model Judging & Ethics</span>
+              <h3 style="font-size: 1.05rem; color: var(--color-text); margin: 6px 0;">06. PAI, PEI & Ethics Safeguards Guide</h3>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; margin-top: 6px;">
+                Checking whether a model is worth patrolling: PAI (>1 = better than chance), PEI (near 1.0 = best possible), and avoiding the 4 traps.
+              </p>
+              <div style="margin-top: 10px; font-size: 0.78rem; color: #475569;">
+                <strong>Tools:</strong> PAI Calculator, PEI Formula, Safeguard Checklist<br>
+                <strong>File:</strong> <code>06_model_evaluation_safeguards.json</code>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button class="btn btn-outline preview-file-btn" data-file="06_safeguards" style="flex: 1; padding: 6px; font-size: 0.8rem;">👁️ Preview</button>
+              <button class="btn btn-primary load-file-btn" data-file="06_safeguards" style="flex: 1; padding: 6px; font-size: 0.8rem;">🚀 Load in Lab</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive File Preview Modal / Drawer -->
+        <div id="file-preview-card" class="glass-card" style="margin-top: 24px; display: none;">
+          <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <span id="preview-file-title">File Details & Data Sample</span>
+            <button class="btn btn-outline" id="close-file-preview-btn" style="padding: 4px 10px; font-size: 0.75rem;">✕ Close</button>
+          </div>
+          <div id="preview-file-content" style="margin-top: 14px;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: Kaggle & Local Data -->
+      <section id="data-section" class="content-section">
+        <div class="section-header">
+          <span class="section-badge">Dataset Ingestion</span>
+          <h2 class="section-title">Crime & Incidents Database</h2>
+          <p class="section-description">Analyze preset Kaggle datasets or drag-and-drop your own Excel/CSV file to run custom models.</p>
+        </div>
+
+        <div class="grid-layout">
+          <!-- Dataset Control panel -->
+          <div class="glass-card span-5">
+            <div class="card-title">Data Administration</div>
+            <div class="input-group">
+              <label class="input-label" for="dataset-select">Select Active Dataset Source</label>
+              <select class="form-control" id="dataset-select">
+                <option value="sf-sample">SF Kaggle Crime Reports (Theft/Burglary)</option>
+                <option value="chicago-sample">Chicago Kaggle Crime Reports (Assault/Robbery)</option>
+                <option value="kaggle-200">200-Sample Kaggle Crime Database</option>
+                <option value="traffic-sample">Seattle Kaggle Traffic Accidents</option>
+                <option value="nuisance-sample">Boston Kaggle Public Disorder reports</option>
+                <option value="uploaded">Local Uploaded Data</option>
+              </select>
+            </div>
+            
+            <!-- Excel / CSV Drop zone -->
+            <div style="margin-top: 15px;">
+              <label class="input-label">Upload Excel or CSV Sheet</label>
+              <div id="drop-zone">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-primary); margin-bottom: 10px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <p style="font-size: 0.9rem; font-weight: 600; color: var(--color-text);">Drag & Drop Spreadsheet here</p>
+                <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 4px;">Supports .xlsx, .xls, .csv files</p>
+                <input type="file" id="file-input" accept=".xlsx, .xls, .csv" style="display: none;">
+                <button class="btn btn-outline" id="browse-btn" style="margin-top: 12px; padding: 6px 12px; font-size: 0.8rem;">Browse Files</button>
+                <a href="#" id="download-sample-link" style="display: block; font-size: 0.8rem; margin-top: 10px; color: var(--color-primary); font-weight: 600; text-decoration: underline;">Download Sample Data File (200-Sample CSV)</a>
+              </div>
+              <div id="upload-status" style="margin-top: 8px; font-size: 0.85rem; display: none;"></div>
+            </div>
+            
+            <div style="margin-top: 24px; border-top: 1px solid var(--color-border); padding-top: 20px;">
+              <h4>Data Volume Statistics</h4>
+              <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 0.9rem;">
+                <span class="color-text-muted">Total Logs Ingested:</span>
+                <span id="data-total-count" style="font-weight: 700; color: var(--color-primary);">0</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.9rem;">
+                <span class="color-text-muted">High Severity Count:</span>
+                <span id="data-burglary-count" style="font-weight: 700;">0</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.9rem;">
+                <span class="color-text-muted">Medium Severity Count:</span>
+                <span id="data-theft-count" style="font-weight: 700;">0</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.9rem;">
+                <span class="color-text-muted">Low Severity Count:</span>
+                <span id="data-assault-count" style="font-weight: 700;">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dataset Table view -->
+          <div class="glass-card span-7">
+            <div class="card-title">Historical Crime Records</div>
+            <div class="table-container" style="max-height: 440px; overflow-y: auto;">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Classification</th>
+                    <th>Date & Time</th>
+                    <th>Reported Area (Intersection)</th>
+                  </tr>
+                </thead>
+                <tbody id="dataset-tbody">
+                  <!-- Injected by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: Live Predictor Suite -->
+      <section id="predictor-section" class="content-section">
+        <div class="section-header">
+          <span class="section-badge">Live Analytics Suite</span>
+          <h2 class="section-title">Suite of Predictive App Modeler</h2>
+          <p class="section-description">Select from different analytical applications to show spatial-temporal predictions on locations, categories, and hours.</p>
+        </div>
+
+        <!-- APP SELECTOR BUTTONS -->
+        <div class="predict-app-selector">
+          <button class="app-btn active" id="app-btn-crime" data-app="crime">
+            👮 Crime Predictor
+          </button>
+          <button class="app-btn" id="app-btn-traffic" data-app="traffic">
+            🚗 Traffic Accident Predictor
+          </button>
+          <button class="app-btn" id="app-btn-nuisance" data-app="nuisance">
+            📢 Public Disorder Predictor
+          </button>
+        </div>
+
+        <div class="grid-layout">
+          <!-- Filters & Results -->
+          <div class="glass-card span-4">
+            <div class="card-title" id="pred-app-title">Crime Predictor Settings</div>
+            
+            <div class="input-group">
+              <label class="input-label" for="predict-crime-type">Target Subcategory</label>
+              <select class="form-control" id="predict-crime-type">
+                <option value="All">All Categories</option>
+                <!-- Dynamic based on selected app -->
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label" for="predict-time">Target Time of Day</label>
+              <select class="form-control" id="predict-time">
+                <option value="All">Full 24 Hours</option>
+                <option value="Morning">Morning (06:00 - 12:00)</option>
+                <option value="Evening">Evening (12:00 - 20:00)</option>
+                <option value="Night">Night (20:00 - 06:00)</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary" id="run-prediction-btn" style="width: 100%; margin-top: 10px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+              Run Prediction Model
+            </button>
+
+            <!-- Results Metrics -->
+            <div style="margin-top: 24px; border-top: 1px solid var(--color-border); padding-top: 20px;">
+              <h4 style="margin-bottom: 12px;">Operational Forecast Result</h4>
+              <div class="alert-box info" style="padding: 10px 14px; margin-bottom: 10px; font-size: 0.85rem;">
+                <strong>Highest Risk Beat Area:</strong> <span id="highest-risk-beat-label">Broadway & 4th Ave</span>
+              </div>
+              <div class="alert-box info" style="padding: 10px 14px; margin-bottom: 10px; font-size: 0.85rem;">
+                <strong>Estimated Time Frame:</strong> <span id="optimal-time-label">21:00 - 23:00</span>
+              </div>
+              <div class="alert-box success" style="padding: 10px 14px; margin-bottom: 0; font-size: 0.85rem;">
+                <strong>Accuracy Index (PAI):</strong> <span id="pai-score-label">2.4</span>
+              </div>
+            </div>
+            
+            <!-- Dynamic Briefing Report -->
+            <div id="briefing-report-container" style="margin-top: 20px; border-top: 1px solid var(--color-border); padding-top: 20px;">
+              <h4 style="margin-bottom: 12px;">Plain-Language Briefing Alert</h4>
+              <div id="briefing-report-content">
+                <!-- Injected dynamically by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Predictions Map & Chart Display -->
+          <div class="glass-card span-8">
+            <div class="widget-tabs">
+              <button class="widget-tab-btn active" id="pred-tab-map">Location Heatmap Forecast</button>
+              <button class="widget-tab-btn" id="pred-tab-time">Time Trend Forecast</button>
+              <button class="widget-tab-btn" id="pred-tab-gmap">Google Maps View</button>
+            </div>
+
+            <!-- Map View Container -->
+            <div id="pred-map-panel" class="widget-panel active">
+              <div class="widget-canvas-container">
+                <!-- Outer container to hold coordinates labels -->
+                <div class="map-grid-wrapper">
+                  <div class="grid-map" id="predictive-map">
+                    <!-- Generated by JS -->
+                  </div>
+                </div>
+                
+                <div class="map-overlay-legend">
+                  <div class="legend-item">
+                    <div class="legend-color" style="background: rgba(220, 38, 38, 0.75);"></div>
+                    <span>Predicted Hotspot</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background: rgba(217, 119, 6, 0.5);"></div>
+                    <span>Medium Risk</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background: rgba(79, 70, 229, 0.25);"></div>
+                    <span>Low Risk Baseline</span>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-text-muted);">
+                💡 Hover/click on the blocks of the city grid map to see specific street intersection addresses.
+              </div>
+            </div>
+
+            <!-- Time Chart View Container -->
+            <div id="pred-time-panel" class="widget-panel">
+              <div class="widget-canvas-container">
+                <svg class="chart-svg" id="time-series-svg">
+                  <!-- Generated by JS -->
+                </svg>
+              </div>
+              <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-text-muted); display: flex; justify-content: space-between;">
+                <span>📈 Solid Line: Historical trend</span>
+                <span>🔮 Dashed Line: Holt-Winters forecast projection</span>
+                <span>☁️ Shaded Zone: 95% Confidence Interval</span>
+              </div>
+            </div>
+
+            <!-- Google Maps Embed Container -->
+            <div id="pred-gmap-panel" class="widget-panel">
+              <div class="widget-canvas-container" style="padding: 0; display: block; width: 100%; height: 440px;">
+                <iframe id="google-map-iframe" width="100%" height="100%" style="border:0; display: block;" allowfullscreen="" loading="lazy" src="about:blank"></iframe>
+              </div>
+              <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-text-muted);">
+                🗺️ Real-time Google Maps View of the selected forecast hotspot intersection.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: Live Monitoring Room -->
+      <section id="live-monitor-section" class="content-section">
+        <div class="section-header">
+          <span class="section-badge">Real-Time Dispatch</span>
+          <h2 class="section-title">Live Dispatch & Incident Monitoring Room</h2>
+          <p class="section-description">Observe active telemetry reports coming in live from patrol beats. Click to dispatch units immediately.</p>
+        </div>
+
+        <!-- Live Metrics Cards -->
+        <div class="kpi-container">
+          <div class="kpi-card" style="border-top: 4px solid var(--color-danger);">
+            <div class="kpi-value" id="kpi-active-alerts">0</div>
+            <div class="kpi-label">Active Alerts (Last 1hr)</div>
+          </div>
+          <div class="kpi-card" style="border-top: 4px solid var(--color-primary);">
+            <div class="kpi-value" id="kpi-patrols">10</div>
+            <div class="kpi-label">Active Patrol Units</div>
+          </div>
+          <div class="kpi-card" style="border-top: 4px solid var(--color-success);">
+            <div class="kpi-value">6.8 min</div>
+            <div class="kpi-label">Avg Response Time</div>
+          </div>
+          <div class="kpi-card" style="border-top: 4px solid var(--color-warning);">
+            <div class="kpi-value" id="kpi-risk-level">MODERATE</div>
+            <div class="kpi-label">Precinct Risk Status</div>
+          </div>
+        </div>
+
+        <div class="grid-layout">
+          <!-- Live Dispatch Telemetry Map -->
+          <div class="glass-card span-6">
+            <div class="card-title">Beat Grid Live Telemetry</div>
+            <div class="widget-canvas-container">
+              <div class="map-grid-wrapper">
+                <div class="grid-map" id="live-telemetry-map">
+                  <!-- Spawns live alert markers -->
+                </div>
+              </div>
+              
+              <div class="map-overlay-legend">
+                <div class="legend-item">
+                  <div class="legend-color" style="background: var(--color-danger);"></div>
+                  <span>Emergency Alert</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color" style="background: var(--color-warning);"></div>
+                  <span>Traffic Incident</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color" style="background: var(--color-info);"></div>
+                  <span>Disorder Report</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dispatch logs and console -->
+          <div class="glass-card span-6">
+            <div class="card-title">Live Dispatch Event Log</div>
+            <div class="dispatch-log-container" id="dispatch-logs">
+              <!-- Logs scroll down automatically -->
+            </div>
+            
+            <div style="margin-top: 20px; display: flex; gap: 12px;">
+              <button class="btn btn-primary" id="toggle-live-feed-btn" style="flex: 1;">
+                Pause Telemetry Feed
+              </button>
+              <button class="btn btn-outline" id="clear-live-logs-btn">
+                Clear Log List
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: Simulators (Education Panel) -->
+      <section id="simulators-section" class="content-section">
+        <div class="section-header">
+          <span class="section-badge">How It Works</span>
+          <h2 class="section-title">The Techniques Explained</h2>
+          <p class="section-description">Interactive training simulators demonstrating how statistical models calculate crime risk without the complex mathematics.</p>
+        </div>
+
+        <!-- Technique tabs -->
+        <div class="widget-tabs">
+          <button class="widget-tab-btn active" data-sim="kde">1. Heatmaps & KDE</button>
+          <button class="widget-tab-btn" data-sim="near-repeat">2. Near-Repeat Patterns</button>
+          <button class="widget-tab-btn" data-sim="rtm">3. Risk Terrain Modeling</button>
+          <button class="widget-tab-btn" data-sim="timeseries">4. Time-Series Forecasting</button>
+          <button class="widget-tab-btn" data-sim="wordcloud">5. ☁️ MO Crime Word Cloud</button>
+        </div>
+
+        <!-- SIM 1: KDE Heatmap -->
+        <div class="widget-panel active" id="sim-kde-panel">
+          <div class="widget-layout">
+            <div class="widget-sidebar">
+              <h4>Kernel Density Estimation</h4>
+              <p class="color-text-muted" style="font-size: 0.95rem;">
+                Instead of looking at raw pins on a map, KDE smooths crime counts across coordinates. Placing an incident sends out a "glow" that fades with distance. Where halos overlap, a bright "hotspot" forms.
+              </p>
+              <div class="alert-box info" style="margin-bottom: 0;">
+                <strong>Interactive Exercise:</strong> Click anywhere on the map grid to place a crime. Watch how the heatmap calculates and expands the glowing risk zone in real-time.
+              </div>
+              <button class="btn btn-outline" id="clear-kde-btn">Reset Grid Incidents</button>
+            </div>
+            <div class="widget-canvas-container">
+              <div class="map-grid-wrapper">
+                <div class="grid-map" id="kde-grid-map">
+                  <!-- Generated by JS -->
+                </div>
+              </div>
+              <div class="map-overlay-legend">
+                <div class="legend-item">
+                  <div class="legend-color" style="background: rgba(220, 38, 38, 0.8);"></div>
+                  <span>High density</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color" style="background: rgba(79, 70, 229, 0.4);"></div>
+                  <span>Low density</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIM 2: Near-Repeat Patterns -->
+        <div class="widget-panel" id="sim-near-repeat-panel">
+          <div class="widget-layout">
+            <div class="widget-sidebar">
+              <h4>Near-Repeat Effect</h4>
+              <p class="color-text-muted" style="font-size: 0.95rem;">
+                Studies show that once a home is burglarized, that specific home and its immediate neighbors face a much higher risk of follow-up attempts for the next 2-4 weeks.
+              </p>
+              
+              <div class="input-group">
+                <label class="input-label" for="nr-weeks-slider">Timeline: Week <span id="nr-weeks-label">1</span></label>
+                <input type="range" class="range-slider" id="nr-weeks-slider" min="1" max="6" value="1">
+              </div>
+
+              <div class="alert-box info">
+                <strong>Try it:</strong> Select Week 1-6 using the slider. Observe how the risk multiplier is highest at Week 1 and slowly decays back to baseline by Week 6.
+              </div>
+              
+              <button class="btn btn-outline" id="clear-nr-btn">Reset Burglary Incident</button>
+            </div>
+            <div class="widget-canvas-container">
+              <div class="map-grid-wrapper">
+                <div class="grid-map" id="nr-grid-map">
+                  <!-- Generated by JS -->
+                </div>
+              </div>
+              <div class="map-overlay-legend">
+                <div class="legend-item">
+                  <div class="legend-color" style="background: rgba(220, 38, 38, 0.85);"></div>
+                  <span>High Risk (Week 1)</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color" style="background: rgba(217, 119, 6, 0.5);"></div>
+                  <span>Moderate Risk</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color" style="background: #ffffff; border: 1px solid var(--color-border);"></div>
+                  <span>Normal Baseline</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIM 3: Risk Terrain Modeling -->
+        <div class="widget-panel" id="sim-rtm-panel">
+          <div class="widget-layout">
+            <div class="widget-sidebar">
+              <h4>Risk Attractors</h4>
+              <p class="color-text-muted" style="font-size: 0.95rem;">
+                RTM doesn't ask "where did it happen?" It asks "what attracts crime?" e.g., ATMs, Bars, Transit stops. This is highly useful for new neighborhoods without historical records.
+              </p>
+              
+              <div class="input-group">
+                <label class="input-label" for="rtm-attractor-select">Place Attractor</label>
+                <select class="form-control" id="rtm-attractor-select">
+                  <option value="bar">🍺 Local Bar (High Weight, Radius 2)</option>
+                  <option value="atm">💰 24h Cash Machine (Medium Weight, Radius 1)</option>
+                  <option value="dark-alley">💡 Unlit Alleyway (Medium Weight, Radius 3)</option>
+                </select>
+              </div>
+
+              <div class="alert-box info" style="margin-bottom: 0;">
+                <strong>Interactive Exercise:</strong> Place attractors on the grid map and watch how risk extends from these key nodes to shape a predicted risk terrain.
+              </div>
+              
+              <button class="btn btn-outline" id="clear-rtm-btn">Clear All Attractors</button>
+            </div>
+            <div class="widget-canvas-container">
+              <div class="map-grid-wrapper">
+                <div class="grid-map" id="rtm-grid-map">
+                  <!-- Generated by JS -->
+                </div>
+              </div>
+              <div class="map-overlay-legend">
+                <div class="legend-item">
+                  <div class="legend-color" style="background: rgba(220, 38, 38, 0.8);"></div>
+                  <span>High Risk Terrain</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color" style="background: rgba(217, 119, 6, 0.45);"></div>
+                  <span>Moderate Risk</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIM 4: Time-Series Forecasting -->
+        <div class="widget-panel" id="sim-timeseries-panel">
+          <div class="widget-layout">
+            <div class="widget-sidebar">
+              <h4>Time-Series Forecast</h4>
+              <p class="color-text-muted" style="font-size: 0.95rem;">
+                Double Exponential Smoothing projects monthly trends forward. Adjust the crime trend rate to see how the mathematical forecasting algorithm updates the prediction line and confidence band.
+              </p>
+              
+              <div class="input-group">
+                <label class="input-label" for="sim-forecast-trend">Crime Trend Factor</label>
+                <select class="form-control" id="sim-forecast-trend">
+                  <option value="flat">Steady Rate (No Trend)</option>
+                  <option value="rising">Rising Crime Trend</option>
+                  <option value="falling">Declining Crime Trend</option>
+                  <option value="seasonal">Seasonal Spikes (High Summer/Winter)</option>
+                </select>
+              </div>
+
+              <button class="btn btn-primary" id="recalculate-forecast-btn" style="width: 100%;">
+                Compute Time Forecast
+              </button>
+            </div>
+            <div class="widget-canvas-container">
+              <svg class="chart-svg" id="sim-timeseries-svg">
+                <!-- Generated by JS -->
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIM 5: Modus Operandi Crime Word Cloud -->
+        <div class="widget-panel" id="sim-wordcloud-panel">
+          <div class="wc-hub-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h4 style="margin: 0 0 4px; font-size: 1.15rem;">Modus Operandi (MO) Crime Word Cloud</h4>
+                <p class="color-text-muted" style="margin: 0; font-size: 0.92rem;">
+                  Click any keyword to reveal detective deductions, correlation with time &amp; beat locations, and linked case files.
+                </p>
+              </div>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="hub-wc-filter-chips">
+                <button class="btn btn-sm btn-primary" data-hub-cat="all">All (24)</button>
+                <button class="btn btn-sm btn-outline" data-hub-cat="burglary">Burglary</button>
+                <button class="btn btn-sm btn-outline" data-hub-cat="snatching">Snatching</button>
+                <button class="btn btn-sm btn-outline" data-hub-cat="cyber">Cyber</button>
+                <button class="btn btn-sm btn-outline" data-hub-cat="autotheft">Auto Theft</button>
+              </div>
+            </div>
+
+            <!-- Word Cloud Canvas -->
+            <div class="wc-hub-cloud" id="hub-wc-cloud">
+              <!-- Rendered by JS -->
+            </div>
+
+            <!-- Inspector Drawer -->
+            <div class="wc-hub-inspector">
+              <div class="wc-hub-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span class="file-factor-badge" id="hub-wc-cat-badge" style="background: #e0e7ff; color: #4338ca;">BURGLARY</span>
+                  <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-primary);" id="hub-wc-freq-badge">9 Mentions</span>
+                </div>
+                <h3 id="hub-wc-word-title" style="margin: 0 0 10px; font-size: 1.35rem; color: var(--color-text);">balcony latch</h3>
+                <p id="hub-wc-deduction" style="font-size: 0.95rem; line-height: 1.55; color: var(--color-text-muted);">
+                  9 burglaries where ground/1st-floor sliding balcony latches were pried with a thin pry-tool while residents slept.
+                </p>
+
+                <div style="margin-top: 14px; padding: 12px; background: rgba(79, 70, 229, 0.04); border-radius: var(--radius-sm); border: 1px solid rgba(79, 70, 229, 0.15);">
+                  <strong style="font-size: 0.78rem; text-transform: uppercase; color: var(--color-primary); display: block; margin-bottom: 4px;">Tactical Patrol Countermeasure</strong>
+                  <p id="hub-wc-tactic" style="margin: 0; font-size: 0.9rem; color: var(--color-text);">
+                    Issue community alert to install secondary window pins. Post plainclothes night checkpoint at Sector 9 rear access lane at 02:00 AM.
+                  </p>
+                </div>
+
+                <div style="margin-top: 12px; font-size: 0.85rem; color: var(--color-text-muted);">
+                  <strong>Time &amp; Location Profile:</strong> <span id="hub-wc-profile">02:00 - 04:30 | Sector 9 &amp; Beat 4</span>
+                </div>
+              </div>
+
+              <div class="wc-hub-card">
+                <h4 style="margin: 0 0 10px; font-size: 1rem;">Linked Case Incidents (<span id="hub-wc-matched-count">3</span> matched)</h4>
+                <div style="overflow-y: auto; max-height: 250px;" id="hub-wc-cases-list">
+                  <!-- Rendered by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: Patrol Allocator Game -->
+      <section id="allocator-section" class="content-section">
+        <div class="section-header">
+          <span class="section-badge">Feedback Loops</span>
+          <h2 class="section-title">The Patrol Allocation Challenge</h2>
+          <p class="section-description">Allocate your patrol fleet across beats. Learn why leaving "low-risk" beats empty creates severe feedback loops and data bias.</p>
+        </div>
+
+        <div class="grid-layout">
+          <!-- Left side: Beat Allocation sliders -->
+          <div class="glass-card span-7">
+            <div class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Patrol Car Allocation Dashboard (Total Fleet: 10 Units)
+            </div>
+
+            <div style="margin-bottom: 20px; display: flex; justify-content: space-between; font-weight: 600;">
+              <span>Available Vehicles: <span id="allocated-count" style="color: var(--color-primary);">0</span>/10 Units</span>
+              <span id="allocator-verdict" style="color: var(--color-warning);">Deploy your vehicles to see performance review</span>
+            </div>
+
+            <div class="allocator-grid">
+              <!-- Beat 1 Row -->
+              <div class="beat-row">
+                <div class="beat-info">
+                  <div class="beat-name">Beat 1 (High Crime)</div>
+                  <div class="beat-details">Target: Broadway Corridor</div>
+                </div>
+                <div class="beat-slider-container">
+                  <input type="range" class="range-slider allocator-slider" data-beat="1" min="0" max="10" value="0">
+                  <span class="allocation-val" id="val-beat-1">0</span>
+                </div>
+                <div class="beat-status">
+                  <span class="status-tag danger" id="status-beat-1">Unpatrolled</span>
+                </div>
+              </div>
+
+              <!-- Beat 2 Row -->
+              <div class="beat-row">
+                <div class="beat-info">
+                  <div class="beat-name">Beat 2 (Medium Crime)</div>
+                  <div class="beat-details">Target: Market & Harbor Core</div>
+                </div>
+                <div class="beat-slider-container">
+                  <input type="range" class="range-slider allocator-slider" data-beat="2" min="0" max="10" value="0">
+                  <span class="allocation-val" id="val-beat-2">0</span>
+                </div>
+                <div class="beat-status">
+                  <span class="status-tag danger" id="status-beat-2">Unpatrolled</span>
+                </div>
+              </div>
+
+              <!-- Beat 3 Row -->
+              <div class="beat-row">
+                <div class="beat-info">
+                  <div class="beat-name">Beat 3 (Residential)</div>
+                  <div class="beat-details">Target: Valley & Cedar Sectors</div>
+                </div>
+                <div class="beat-slider-container">
+                  <input type="range" class="range-slider allocator-slider" data-beat="3" min="0" max="10" value="0">
+                  <span class="allocation-val" id="val-beat-3">0</span>
+                </div>
+                <div class="beat-status">
+                  <span class="status-tag danger" id="status-beat-3">Unpatrolled</span>
+                </div>
+              </div>
+
+              <!-- Beat 4 Row -->
+              <div class="beat-row">
+                <div class="beat-info">
+                  <div class="beat-name">Beat 4 (Transit Hub)</div>
+                  <div class="beat-details">Target: Main St Station</div>
+                </div>
+                <div class="beat-slider-container">
+                  <input type="range" class="range-slider allocator-slider" data-beat="4" min="0" max="10" value="0">
+                  <span class="allocation-val" id="val-beat-4">0</span>
+                </div>
+                <div class="beat-status">
+                  <span class="status-tag danger" id="status-beat-4">Unpatrolled</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side: Simulator explanation cards -->
+          <div class="glass-card span-5">
+            <div class="card-title">Feedback Loop Mechanism</div>
+            <div class="alert-box danger" id="feedback-warning-box">
+              <strong>Model Bias Detected!</strong>
+              <p style="margin-top: 8px; font-size: 0.9rem;">
+                If you only deploy patrols to high-risk beats and leave lower-risk beats unpatrolled (0 cars), you'll only record crimes in the patrolled beats. The model will interpret this as "No crime occurred in other beats," leading to a biased feedback loop!
+              </p>
+            </div>
+            
+            <div class="alert-box info" id="allocator-praise-box" style="display: none;">
+              <strong>Safe Patrol Policy Maintained!</strong>
+              <p style="margin-top: 8px; font-size: 0.9rem;">
+                Excellent! By maintaining a minimum patrol floor of at least 1-2 cars in every single beat (including low-risk ones), you ensure random crimes elsewhere are recorded. This breaks the model bias and keeps the dataset clean.
+              </p>
+            </div>
+
+            <div style="font-size: 0.9rem; line-height: 1.6; color: var(--color-text-muted);">
+              <h4 style="color: var(--color-text); margin-bottom: 8px;">Key Rules for Resource Managers:</h4>
+              <ul style="margin-left: 20px;">
+                <li><strong>Minimum Patrol Floor:</strong> Never leave a beat at zero cars.</li>
+                <li><strong>Weight Severity:</strong> Prioritize violent crimes over minor thefts when allocating.</li>
+                <li><strong>Log Actions:</strong> Always compare patrol hours to predicted crime hotspots for audit trails.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7: Free Tools & Case Studies -->
+      <section id="tools-section" class="content-section">
+        <div class="section-header">
+          <span class="section-badge">Case Studies & Tools</span>
+          <h2 class="section-title">Free Tools Matrix & Real-World Safeguards</h2>
+          <p class="section-description">Practical tools you can use without coding, case studies of failure/success, and non-negotiable ethical guidelines.</p>
+        </div>
+
+        <div class="grid-layout">
+          <!-- Tools Table -->
+          <div class="glass-card span-12">
+            <div class="card-title">Free Tools for Precinct Analysts</div>
+            <div class="table-container">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Tool Name</th>
+                    <th>What it does</th>
+                    <th>Required Skill Level</th>
+                    <th>Action Checklist Suggestion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="color: var(--color-text); font-weight: 700;"><a href="https://support.microsoft.com/en-us/office/forecast-ets-function-153fe340-c588-49a5-8370-ac5b95e94b45" target="_blank" style="color: var(--color-primary); text-decoration: underline;">Excel FORECAST.ETS</a></td>
+                    <td>Plots monthly crime counts forward in Excel using built-in exponential smoothing.</td>
+                    <td><span class="status-tag safe" style="font-size: 0.8rem; padding: 2px 6px;">None (Standard Excel)</span></td>
+                    <td>Plot 18 months of local unit crime figures for next month's target range.</td>
+                  </tr>
+                  <tr>
+                    <td style="color: var(--color-text); font-weight: 700;"><a href="https://qgis.org/" target="_blank" style="color: var(--color-primary); text-decoration: underline;">QGIS Mapping</a></td>
+                    <td>Free software to overlay incident coordinates, build heatmaps, and outline beats.</td>
+                    <td><span class="status-tag warning" style="font-size: 0.8rem; padding: 2px 6px;">Basic Training</span></td>
+                    <td>Build a localized monthly hotspot mapping panel.</td>
+                  </tr>
+                  <tr>
+                    <td style="color: var(--color-text); font-weight: 700;"><a href="https://nij.ojp.gov/topics/articles/crimestat-spatial-statistics-program-crime-analysis" target="_blank" style="color: var(--color-primary); text-decoration: underline;">CrimeStat (US DOJ)</a></td>
+                    <td>Specialized spatial analysis tool built for police incident maps.</td>
+                    <td><span class="status-tag warning" style="font-size: 0.8rem; padding: 2px 6px;">Basic / Intermediate</span></td>
+                    <td>Run spatial cluster analysis on residential burglary patterns.</td>
+                  </tr>
+                  <tr>
+                    <td style="color: var(--color-text); font-weight: 700;"><a href="https://facebook.github.io/prophet/" target="_blank" style="color: var(--color-primary); text-decoration: underline;">Prophet (Meta)</a></td>
+                    <td>Time-series model that automatically accounts for holiday & seasonal crime spikes.</td>
+                    <td><span class="status-tag danger" style="font-size: 0.8rem; padding: 2px 6px;">Needs Python Code</span></td>
+                    <td>Incorporate major national festival dates into seasonal predictions.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Case Studies -->
+          <div class="glass-card span-6">
+            <div class="card-title">Real-World Case Studies</div>
+            
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div>
+                <strong style="color: var(--color-text);">🇺🇸 USA (PredPol):</strong>
+                <p class="color-text-muted" style="font-size: 0.9rem; margin-top: 4px;">
+                  Failed by re-flagging already over-policed neighborhoods. It learned from drug arrest data rather than actual reported crimes, creating a systemic bias loop. Several cities discontinued it.
+                </p>
+              </div>
+              <div>
+                <strong style="color: var(--color-text);">🇬🇧 Kent, UK Trials:</strong>
+                <p class="color-text-muted" style="font-size: 0.9rem; margin-top: 4px;">
+                  Conducted an honest trial. When they found the tool did not yield significant drops in violence compared to normal policing, they safely shut it down. Lesson: a negative trial is a success.
+                </p>
+              </div>
+              <div>
+                <strong style="color: var(--color-text);">🇳🇱 Netherlands (CAS):</strong>
+                <p class="color-text-muted" style="font-size: 0.9rem; margin-top: 4px;">
+                  A successful model. Excludes ethnic/demographic metrics by design, passes through strict ethics boards, and serves strictly as a human advisory briefing rather than dispatch commands.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Non-Negotiable Safeguards -->
+          <div class="glass-card span-6">
+            <div class="card-title">Non-Negotiable Safeguards</div>
+            <div id="safeguards-checklist">
+              <div class="checklist-item">
+                <div class="checklist-box checked" data-id="1"></div>
+                <div class="checklist-content">
+                  <strong>Human in the Loop:</strong> Models only brief and advise; they never auto-dispatch officers or trigger direct arrests.
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checklist-box checked" data-id="2"></div>
+                <div class="checklist-content">
+                  <strong>Explicit Explanations:</strong> Officers must be able to state, in clear language, exactly why a specific area was flagged.
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checklist-box checked" data-id="3"></div>
+                <div class="checklist-content">
+                  <strong>Target Places, Never People:</strong> Score locations and times for patrol presence, never individuals as "chronic offenders."
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checklist-box checked" data-id="4"></div>
+                <div class="checklist-content">
+                  <strong>Audit Log Trail:</strong> Archive every prediction along with actual patrol actions and results for external checks.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

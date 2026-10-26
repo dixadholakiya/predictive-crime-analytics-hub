@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI for Policing: Free Hands-on Toolkit</title>
+<style>
+:root{--bg:#f4f7fb;--card:#ffffff;--tx:#0f172a;--mu:#475569;--ln:#d8e0ec;--ac:#1d4ed8;--acs:#e3ecff;--am:#92400e;--ams:#fef3c7;--ok:#047857;--oks:#d1fae5;--bad:#b91c1c;--bads:#fee2e2;--code:#0b1220;--ct:#b7f7d0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1120;--card:#111b2e;--tx:#e6edf7;--mu:#a3b3cb;--ln:#24324a;--ac:#8dbbff;--acs:#172a4d;--am:#fbbf24;--ams:#2f2410;--ok:#34d399;--oks:#0d2a22;--bad:#fca5a5;--bads:#341515;--code:#050a14;--ct:#a7f3d0}}
+:root[data-theme="dark"]{--bg:#0a1120;--card:#111b2e;--tx:#e6edf7;--mu:#a3b3cb;--ln:#24324a;--ac:#8dbbff;--acs:#172a4d;--am:#fbbf24;--ams:#2f2410;--ok:#34d399;--oks:#0d2a22;--bad:#fca5a5;--bads:#341515;--code:#050a14;--ct:#a7f3d0}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:20}
+header{padding:28px 20px 18px;max-width:1080px;margin:0 auto}
+header h1{margin:0 0 6px;font-size:clamp(1.6rem,4.5vw,2.3rem);line-height:1.15}
+header p{margin:0;color:var(--mu);max-width:780px}
+.rule{margin:14px 0 0;padding:10px 14px;border-radius:10px;background:var(--ams);color:var(--am);font-weight:600;font-size:.95rem}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--card);border-bottom:1px solid var(--ln);overflow-x:auto;white-space:nowrap}
+nav .in{max-width:1080px;margin:0 auto;padding:0 12px;display:flex;gap:2px}
+nav button{background:none;border:0;border-bottom:3px solid transparent;color:var(--mu);font:inherit;font-weight:600;padding:14px 12px;cursor:pointer}
+nav button[aria-selected="true"]{color:var(--ac);border-bottom-color:var(--ac)}
+main{max-width:1080px;margin:0 auto;padding:22px 20px 60px}
+h2{font-size:1.5rem;margin:0 0 4px}h3{font-size:1.1rem;margin:22px 0 8px}
+.sub{color:var(--mu);margin:0 0 16px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:16px}
+.card h4{margin:0 0 6px;font-size:1.02rem}.card p{margin:0 0 8px;color:var(--mu);font-size:.95rem}
+.lab{cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
+.lab:hover{border-color:var(--ac)}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.78rem;font-weight:700;background:var(--acs);color:var(--ac);margin:0 4px 4px 0}
+.low{background:var(--oks);color:var(--ok)}.med{background:var(--ams);color:var(--am)}.high{background:var(--bads);color:var(--bad)}
+.scn{border-left:4px solid var(--ac);background:var(--acs);padding:12px 14px;border-radius:0 10px 10px 0;margin:10px 0 16px}
+.scn b{display:block;font-size:.78rem;letter-spacing:.08em;color:var(--ac)}
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:0}
+ol.steps>li{counter-increment:s;position:relative;background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:12px 14px 12px 54px;margin-bottom:10px}
+ol.steps>li::before{content:counter(s);position:absolute;left:14px;top:12px;width:28px;height:28px;border-radius:50%;background:var(--ac);color:var(--card);font-weight:700;display:grid;place-items:center}
+ol.steps b{display:block}
+ol.steps span{color:var(--mu);font-size:.95rem}
+pre.code{position:relative;background:var(--code);color:var(--ct);border-radius:10px;padding:14px;margin:8px 0 0;overflow-x:auto;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace}
+pre.code code{white-space:pre}
+.cp{position:absolute;top:6px;right:6px;font:600 12px system-ui,sans-serif;background:var(--card);color:var(--tx);border:1px solid var(--ln);border-radius:6px;padding:3px 9px;cursor:pointer}
+.prompt{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:.95rem}
+.prompt .cp{position:static;flex:none}
+.two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.do{border-top:4px solid var(--ok)}.dont{border-top:4px solid var(--bad)}
+ul.l{margin:0;padding-left:20px}ul.l li{margin:4px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chips button{font:inherit;font-weight:600;font-size:.9rem;border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:99px;padding:6px 14px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--ac);color:var(--card);border-color:var(--ac)}
+.task{border:2px dashed var(--ac);border-radius:12px;padding:12px 14px;margin-top:16px}
+.task b{color:var(--ac)}
+label{display:block;font-weight:600;font-size:.9rem;margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:8px 10px}
+textarea{min-height:84px;resize:vertical}
+.chk label{font-weight:400;display:flex;gap:10px;align-items:flex-start;margin:6px 0}
+.chk input{width:auto;margin-top:5px}
+small.n{color:var(--mu)}
+@media (max-width:560px){main{padding:18px 14px 50px}header{padding:22px 14px 14px}}
+
+/* Word Cloud, Link Graph, and Hotspot Matrix Styles */
+.wc-cloud-box{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:24px;min-height:280px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.03)}
+.wc-tag{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:6px 14px;cursor:pointer;transition:all .2s cubic-bezier(.16,1,.3,1);font-weight:600;user-select:none;border:1px solid transparent;line-height:1.2}
+.wc-tag:hover{transform:translateY(-2px) scale(1.08);box-shadow:0 6px 14px rgba(0,0,0,0.12);z-index:5}
+.wc-tag.active{transform:scale(1.12);box-shadow:0 0 0 3px var(--ac), 0 8px 18px rgba(29,78,216,.25);border-color:#fff;z-index:10}
+.wc-count{font-size:.72em;opacity:.85;background:rgba(0,0,0,.12);padding:2px 6px;border-radius:10px;font-weight:700}
+.wc-burglary{background:#f3e8ff;color:#7e22ce;border-color:#e9d5ff}
+.wc-snatching{background:#ffedd5;color:#c2410c;border-color:#fed7aa}
+.wc-cyber{background:#e0f2fe;color:#0369a1;border-color:#bae6fd}
+.wc-autotheft{background:#dcfce7;color:#15803d;border-color:#bbf7d0}
+.wc-weapons{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .wc-burglary{background:#3b185f;color:#d8b4fe;border-color:#581c87}
+  :root:not([data-theme="light"]) .wc-snatching{background:#4a2107;color:#fdba74;border-color:#7c2d12}
+  :root:not([data-theme="light"]) .wc-cyber{background:#0c3554;color:#7dd3fc;border-color:#075985}
+  :root:not([data-theme="light"]) .wc-autotheft{background:#0d3822;color:#86efac;border-color:#14532d}
+  :root:not([data-theme="light"]) .wc-weapons{background:#450a0a;color:#fca5a5;border-color:#7f1d1d}
+}
+.wc-inspector{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:18px;display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-top:14px}
+@media (max-width:768px){.wc-inspector{grid-template-columns:1fr}}
+.wc-detail-card{padding:14px;background:var(--bg);border-radius:10px;border:1px solid var(--ln)}
+.wc-case-item{padding:10px;border-radius:8px;background:var(--card);border:1px solid var(--ln);margin-bottom:8px;font-size:.88rem}
+.wc-case-item b{color:var(--ac)}
+.wc-highlight{background:#fef08a;color:#854d0e;padding:1px 4px;border-radius:4px;font-weight:700}
+.link-graph-box{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:16px;margin-top:16px}
+.link-node{cursor:pointer;transition:all .2s ease}
+.link-node:hover circle{stroke-width:3px;stroke:var(--ac)}
+.link-edge{stroke:var(--ln);stroke-width:1.5px;transition:all .2s ease}
+.link-edge.active{stroke:var(--ac);stroke-width:3px;stroke-dasharray:4;animation:wc-dash 1s linear infinite}
+@keyframes wc-dash{to{stroke-dashoffset:-8}}
+.wc-sandbox{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:18px;margin-top:16px}
+.wc-presets{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.wc-preset-btn{font-size:.82rem;padding:4px 10px;border-radius:8px;border:1px solid var(--ln);background:var(--bg);cursor:pointer;color:var(--tx);font-weight:500}
+.wc-preset-btn:hover{border-color:var(--ac);color:var(--ac)}
+.hotspot-cell{border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;border:1px solid transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:58px}
+.hotspot-cell:hover{transform:scale(1.04);box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+
+</style>
+</head>
+<body>
+<header>
+  <h1>AI for Policing: Free Hands-on Toolkit</h1>
+  <p>Four practical labs using free tools and open or synthetic data: crime hotspot analysis, suspect and case-link analysis, document analysis with NotebookLM, and AI-assisted report writing.</p>
+  <div class="rule">Practise on public or synthetic data only. AI output is a lead for a human to verify, never evidence. <button class="cp" data-go="private" style="position:static;font-size:.9rem;padding:6px 12px;margin-left:6px">Real case data? Open Private mode</button></div>
+</header>
+<nav><div class="in" role="tablist">
+  <a href="index.html" style="text-decoration:none;font-weight:700;color:var(--ac);padding:14px 12px;display:inline-flex;align-items:center;gap:4px;border-bottom:3px solid transparent;">← Visual Hub</a>
+  <button data-t="overview" aria-selected="true">Overview</button>
+  <button data-t="hotspots">1 · Crime hotspots</button>
+  <button data-t="suspects">2 · Suspect &amp; links</button>
+  <button data-t="wordcloud">☁️ MO Word Cloud</button>
+  <button data-t="notebooklm">3 · NotebookLM</button>
+  <button data-t="reports">4 · Reports</button>
+  <button data-t="private">Private mode</button>
+  <button data-t="tools">Free tools</button>
+  <button data-t="ethics">Ethics &amp; safety</button>
+</div></nav>
+<main>
+
+<section class="panel" id="overview">
+  <h2>Start here</h2>
+  <p class="sub">Each lab is scenario-based: a realistic problem, free tools, steps, a practice task and a clear deliverable.</p>
+  <div class="grid">
+    <button class="card lab" data-go="hotspots"><span class="tag">60 min</span><h4>Lab 1 · Crime hotspot map</h4><p>Map past incidents, find time-and-place patterns and suggest patrol areas.</p></button>
+    <button class="card lab" data-go="suspects"><span class="tag">60 min</span><h4>Lab 2 · Case links and MO matching</h4><p>Find which cases may be connected and draw a link chart.</p></button>
+    <button class="card lab" data-go="wordcloud"><span class="tag" style="background:var(--oks);color:var(--ok);">Interactive</span><h4>☁️ MO Crime Word Cloud</h4><p>Interactive tag cloud of crime keywords, detective deductions, and live link chart.</p></button>
+    <button class="card lab" data-go="notebooklm"><span class="tag">45 min</span><h4>Lab 3 · Case files in NotebookLM</h4><p>Ask grounded questions, build timelines and spot contradictions.</p></button>
+    <button class="card lab" data-go="reports"><span class="tag">45 min</span><h4>Lab 4 · AI-assisted reports</h4><p>Turn verified facts into a clean draft, then review it like an officer.</p></button>
+  </div>
+
+  <h3>Where AI is used in real civil policing</h3>
+  <p class="sub">Risk shows how careful you must be. Practise the low and medium items; treat high-risk items as policy and legal matters, not classroom experiments.</p>
+  <div class="grid">
+    <div class="card"><span class="tag low">Low risk</span><h4>Live incident dashboard</h4><p>Auto-updating charts of calls, offences and response times.</p><span class="tag">Looker Studio · Sheets</span></div>
+    <div class="card"><span class="tag med">Medium risk</span><h4>Patrol planning by hotspot</h4><p>Place-based maps by time of day to guide where officers spend time.</p><span class="tag">QGIS · Kepler.gl · Colab</span></div>
+    <div class="card"><span class="tag med">Medium risk</span><h4>Control-room call transcription</h4><p>Speech-to-text and short summaries of emergency calls, in several languages.</p><span class="tag">Whisper · Colab</span></div>
+    <div class="card"><span class="tag med">Medium risk</span><h4>Case-file summaries and timelines</h4><p>Quickly read long documents and find gaps, with citations to check.</p><span class="tag">NotebookLM</span></div>
+    <div class="card"><span class="tag med">Medium risk</span><h4>Complaint and report drafting</h4><p>Structured drafts and translations. A human checks every fact and legal section.</p><span class="tag">Gemini · ChatGPT · Claude · Ollama</span></div>
+    <div class="card"><span class="tag low">Low risk</span><h4>Public awareness and appeals</h4><p>Draft and translate safety advisories, missing-person appeals and cyber-fraud alerts.</p><span class="tag">Free chat assistants</span></div>
+    <div class="card"><span class="tag high">High risk</span><h4>Face recognition and person scoring</h4><p>Identifying people or rating who is “likely to offend”. Do not practise this on real people. Use only under law, approval and audit.</p></div>
+  </div>
+</section>
+
+<section class="panel" id="hotspots" hidden>
+  <h2>Lab 1 · Crime hotspot analysis</h2>
+  <p class="sub">Predict <em>where and when</em> crime is more likely, not who will commit it.</p>
+  <div class="scn"><b>SCENARIO</b>You are the analyst for a district control room. House burglaries have risen in the last two months. Where should next week’s night patrols focus?</div>
+  <div class="tag">Colab</div><div class="tag">Google Sheets</div><div class="tag">QGIS or Kepler.gl</div><div class="tag">Orange (optional)</div>
+  <h3>Steps</h3>
+  <ol class="steps">
+    <li><b>Get open data</b><span>Download street-level crime CSVs from data.police.uk, the Chicago Data Portal or data.gov.in, or generate a synthetic file with latitude, longitude, date, time and offence type.</span></li>
+    <li><b>Clean it</b><span>In Sheets or pandas: remove rows with no coordinates, standardise dates, keep one offence type (for example burglary).</span></li>
+    <li><b>Map it</b><span>Load the points into Kepler.gl (runs in the browser) or QGIS and switch on a heatmap. Compare day and night.</span></li>
+    <li><b>Find time patterns</b><span>Make an hour × weekday table. Which time blocks carry most incidents?</span></li>
+    <li><b>Build a simple forecast</b><span>Count incidents per grid cell per week, then compare a baseline (average of the last 4 weeks) with a model. Run the starter code below in Colab.</span></li>
+    <li><b>Audit the result</b><span>Are hotspots only where police already patrol or where people report more? Note this in your briefing.</span></li>
+  </ol>
+<pre class="code"><code>import pandas as pd
+from sklearn.ensemble import GradientBoostingRegressor
+df = pd.read_csv("crimes.csv", parse_dates=["date"])
+df["cell"] = df.lat.round(2).astype(str) + "_" + df.lon.round(2).astype(str)
+w = df.groupby(["cell", pd.Grouper(key="date", freq="W")]).size().rename("n").reset_index()
+w["last4"] = w.groupby("cell").n.transform(lambda s: s.shift(1).rolling(4).mean())
+w = w.dropna()
+m = GradientBoostingRegressor().fit(w[["last4"]], w.n)
+w["pred"] = m.predict(w[["last4"]])
+print(w.nlargest(10, "pred")[["cell", "pred"]])   # top-10 cells to review</code></pre>
+  <small class="n">Starter only. Improve it by adding hour, weekday, holidays and nearby-cell counts, and test on weeks the model has not seen.</small>
+  
+  <!-- Interactive Hotspot Matrix (Lab 1 Live Simulator) -->
+  <div class="card" style="margin-top:16px;border:1px solid var(--ln);">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;">
+      <div>
+        <span class="tag" style="background:var(--acs);color:var(--ac);font-weight:700">Lab 1 Interactive Component</span>
+        <h4 style="margin:4px 0">Interactive Hotspot Grid Matrix Simulator</h4>
+        <p style="margin:0;font-size:0.9rem;color:var(--mu)">See how crime concentration shifts across a 4x4 district grid based on day of week and patrol shift.</p>
+      </div>
+      <div style="font-size:0.8rem;color:var(--mu);">Grid Cells: 16 (0.5km² each)</div>
+    </div>
+    
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 12px;">
+      <div>
+        <label style="margin:0 0 4px;font-size:0.82rem">Day Type:</label>
+        <div class="chips" id="hs-day-chips" style="margin:0">
+          <button data-day="weekday" aria-pressed="true" style="padding:4px 12px;font-size:0.82rem">Weekday</button>
+          <button data-day="weekend" aria-pressed="false" style="padding:4px 12px;font-size:0.82rem">Weekend</button>
+        </div>
+      </div>
+      <div>
+        <label style="margin:0 0 4px;font-size:0.82rem">Shift Window:</label>
+        <div class="chips" id="hs-shift-chips" style="margin:0">
+          <button data-shift="day" aria-pressed="false" style="padding:4px 12px;font-size:0.82rem">Day (08:00 - 16:00)</button>
+          <button data-shift="evening" aria-pressed="false" style="padding:4px 12px;font-size:0.82rem">Evening (16:00 - 23:00)</button>
+          <button data-shift="night" aria-pressed="true" style="padding:4px 12px;font-size:0.82rem">Night (23:00 - 06:00)</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:440px;margin:10px auto;" id="hs-mini-grid">
+      <!-- Generated by JS -->
+    </div>
+
+    <div id="hs-briefing-alert" style="margin-top:12px;padding:10px 14px;border-radius:8px;background:var(--acs);font-size:0.88rem;color:var(--tx)">
+      <b>Recommended Patrol Priority:</b> Sector 9 (Cell B2) & Market Backlane (Cell C3) hold 64% of night burglary probability.
+    </div>
+  </div>
+
+  <div class="task"><b>Practice task.</b> Produce a one-page patrol briefing: a heatmap, the top 10 grid cells for next week, the best two time windows, and one paragraph on limits and bias.</div>
+</section>
+
+<section class="panel" id="suspects" hidden>
+  <h2>Lab 2 · Suspect and case-link analysis</h2>
+  <p class="sub">Find patterns and links between <em>cases</em>. Do not score individual people.</p>
+  <div class="scn"><b>SCENARIO</b>Seven mobile-snatching cases in three weeks, on two bikes, in three areas. Do they share an offender or modus operandi (MO)? What should investigators check next?</div>
+  <div class="tag">Colab</div><div class="tag">Gephi</div><div class="tag">Neo4j Aura Free</div><div class="tag">NotebookLM</div>
+  <h3>Steps</h3>
+  <ol class="steps">
+    <li><b>Prepare a synthetic case table</b><span>Columns: case id, date, place, MO text, vehicle, description of offender, items taken. Ask a chat assistant to generate 20 fictional rows.</span></li>
+    <li><b>Match MO by meaning</b><span>Convert each MO description to an embedding and rank the cases most similar to a target case (code below).</span></li>
+    <li><b>Draw a link chart</b><span>Nodes: cases, vehicles, phone numbers, places. Edges: shared attributes. Use networkx in Colab, or import a CSV into Gephi.</span></li>
+    <li><b>Build the timeline</b><span>Put the cases on a map and a timeline. Check travel time between scenes.</span></li>
+    <li><b>Write a leads list</b><span>For each link, state the evidence, how strong it is, and what would disprove it.</span></li>
+  </ol>
+<pre class="code"><code>from sentence_transformers import SentenceTransformer, util
+m = SentenceTransformer("all-MiniLM-L6-v2")
+e = m.encode(cases.mo_text.tolist())
+sim = util.cos_sim(e, e)
+print(sim[0].argsort(descending=True)[:4])   # cases most like case 0
+
+import networkx as nx
+G = nx.Graph()
+G.add_edges_from([("Case 1", "Bike-A"), ("Case 4", "Bike-A"), ("Case 4", "Area-C")])
+print(nx.degree_centrality(G))               # most connected nodes</code></pre>
+  <div class="task"><b>Practice task.</b> Deliver a link chart plus a leads table with three columns: link, evidence strength (weak, medium, strong), and what would disprove it.</div>
+
+  <!-- Interactive Word Cloud & Link Network Launcher in Lab 2 -->
+  <div class="card" style="margin-top:16px;border:2px solid var(--ac);background:var(--acs)">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div>
+        <span class="tag" style="background:var(--ac);color:#fff">Interactive Hands-on Tool</span>
+        <h4 style="margin:4px 0 2px;color:var(--tx)">Try the Modus Operandi Crime Word Cloud &amp; Link Chart</h4>
+        <p style="margin:0;font-size:0.9rem;color:var(--mu)">Explore how keyword embeddings match cases, discover serial offender signatures, and inspect the co-occurrence network without writing code.</p>
+      </div>
+      <button class="cp" data-go="wordcloud" style="position:static;background:var(--ac);color:#fff;border-color:var(--ac);padding:8px 16px;font-size:0.92rem;font-weight:700">Open MO Word Cloud Lab →</button>
+    </div>
+  </div>
+
+  <div class="scn" style="border-left-color:var(--bad);background:var(--bads)"><b style="color:var(--bad)">GUARDRAIL</b>Similar MO is a lead, not proof. A shared pattern can come from many people. Never use AI to label a named person as likely guilty.</div>
+</section>
+
+
+<section class="panel" id="wordcloud" hidden>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+    <div>
+      <h2>Interactive Modus Operandi (MO) Crime Word Cloud</h2>
+      <p class="sub">Click keywords to filter linked cases, uncover serial offender signatures, and test your own synthetic FIR text.</p>
+    </div>
+    <span class="tag" style="background:var(--oks);color:var(--ok);font-size:0.85rem;padding:4px 12px;">🔒 In-Browser Privacy Preserved</span>
+  </div>
+
+  <div class="scn">
+    <b>POLICE ANALYST INSIGHT</b>
+    Criminals are creatures of habit. A serial burglar repeats entry methods (e.g. <em>balcony latch</em>); mobile snatchers reuse bike models and escape tactics (e.g. <em>black pulsar, pillion rider</em>). Word clouds turn unstructured FIR text into visual pattern alarms.
+  </div>
+
+  <!-- Category filter chips -->
+  <div class="chips" id="wc-filter-chips">
+    <button data-cat="all" aria-pressed="true">All MO Patterns (<span id="wc-total-count">24</span>)</button>
+    <button data-cat="burglary" aria-pressed="false">🟣 Burglary &amp; Housebreak</button>
+    <button data-cat="snatching" aria-pressed="false">🟠 Street Snatching</button>
+    <button data-cat="cyber" aria-pressed="false">🔵 Cyber &amp; Financial Fraud</button>
+    <button data-cat="autotheft" aria-pressed="false">🟢 Auto &amp; Bike Theft</button>
+  </div>
+
+  <!-- Interactive Word Cloud Canvas -->
+  <div class="wc-cloud-box" id="wc-cloud-container">
+    <!-- Populated dynamically by JS -->
+  </div>
+
+  <!-- Detective Intelligence Inspector Drawer -->
+  <div class="wc-inspector" id="wc-inspector-drawer">
+    <div class="wc-detail-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span class="tag" id="wc-selected-cat" style="margin:0">Category</span>
+        <span style="font-size:0.85rem;font-weight:700;color:var(--ac)" id="wc-selected-freq">9 Incident Mentions</span>
+      </div>
+      <h3 id="wc-selected-word" style="margin:0 0 8px;font-size:1.3rem">Click any word in the cloud above</h3>
+      <p id="wc-selected-deduction" style="font-size:0.95rem;line-height:1.5;color:var(--tx)">
+        Select a keyword above (e.g., <em>balcony latch</em>, <em>black pulsar</em>, or <em>electricity bill SMS</em>) to inspect its investigative meaning, time correlation, and linked cases.
+      </p>
+
+      <div style="margin-top:12px;padding:10px;background:var(--card);border-radius:8px;border:1px solid var(--ln);">
+        <b style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--mu);display:block;margin-bottom:4px">Tactical Countermeasure</b>
+        <p id="wc-selected-tactic" style="margin:0;font-size:0.88rem;color:var(--tx)">Recommended action for beat officers and patrol supervisors.</p>
+      </div>
+
+      <div style="margin-top:10px;font-size:0.85rem;">
+        <b>Time &amp; Location Profile:</b> <span id="wc-selected-profile" style="color:var(--mu)">N/A</span>
+      </div>
+    </div>
+
+    <div class="wc-detail-card">
+      <h5 style="margin:0 0 8px">Linked Case Incidents (<span id="wc-matched-count">0</span> matching)</h5>
+      <div style="overflow-y:auto;max-height:240px;" id="wc-cases-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Case Link Chart (SVG) -->
+  <div class="link-graph-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+      <div>
+        <h4 style="margin:0 0 4px">Interactive Case-Attribute Link Chart (Lab 2 Live Graph)</h4>
+        <p style="margin:0;font-size:0.88rem;color:var(--mu)">Visualising shared Modus Operandi, vehicles, and areas connecting disparate FIRs.</p>
+      </div>
+      <div style="display:flex;gap:12px;font-size:0.8rem;">
+        <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#1d4ed8;display:inline-block"></span> Case Node</span>
+        <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#d97706;display:inline-block"></span> Vehicle / MO</span>
+        <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#059669;display:inline-block"></span> Area / Sector</span>
+      </div>
+    </div>
+    <div style="width:100%;overflow-x:auto;">
+      <svg id="link-graph-svg" viewBox="0 0 800 320" style="width:100%;max-width:800px;display:block;margin:0 auto;background:var(--bg);border-radius:10px;border:1px solid var(--ln)"></svg>
+    </div>
+    <small class="n">Click on any node to highlight all connected cases and shared attributes.</small>
+  </div>
+
+  <!-- Live FIR Parser & Sandbox -->
+  <div class="wc-sandbox">
+    <h4 style="margin:0 0 4px">⚡ Live FIR Text Analyzer: Build Your Own Crime Word Cloud</h4>
+    <p style="margin:0 0 10px;font-size:0.9rem;color:var(--mu)">Paste raw incident narratives or click a preset below. The local in-browser regex and NLP parser strips stopwords and extracts recurring crime patterns on your machine.</p>
+
+    <div class="wc-presets">
+      <span style="font-size:0.85rem;font-weight:600;align-self:center;color:var(--mu)">Presets:</span>
+      <button class="wc-preset-btn" data-preset="burglary">Burglary Wave (Beat 4)</button>
+      <button class="wc-preset-btn" data-preset="snatching">Biker Snatching (Station Rd)</button>
+      <button class="wc-preset-btn" data-preset="cyber">Power Bill Cyber Fraud</button>
+      <button class="wc-preset-btn" data-preset="autotheft">Metro Parking Auto Theft</button>
+    </div>
+
+    <textarea id="wc-custom-input" placeholder="Paste unclassified FIR complaints or beat patrol logs here..." style="min-height:100px;font-size:0.9rem;"></textarea>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;flex-wrap:wrap;gap:10px;">
+      <span style="font-size:0.85rem;color:var(--ok);font-weight:600;">✓ In-browser local processing — 0 bytes transmitted outside</span>
+      <button class="cp" id="wc-process-btn" style="position:static;background:var(--ac);color:#fff;border-color:var(--ac);padding:8px 18px;font-size:0.95rem;font-weight:700">⚡ Extract Keywords &amp; Update Cloud</button>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="notebooklm" hidden>
+  <h2>Lab 3 · Analyse case files with NotebookLM</h2>
+  <p class="sub">NotebookLM answers from the sources you add and shows citations, which makes checking easier.</p>
+  <div class="scn"><b>SCENARIO</b>You receive five documents on an online-fraud ring: two public advisories, a synthetic FIR, a synthetic bank-statement summary and news clippings. Brief your superintendent in ten lines.</div>
+  <ol class="steps">
+    <li><b>Create a notebook</b><span>Open NotebookLM with a Google account and start a new notebook named for the exercise.</span></li>
+    <li><b>Add sources</b><span>Upload PDFs or Google Docs, paste text or add web links. Use only public or synthetic material.</span></li>
+    <li><b>Ask grounded questions</b><span>Use the prompts below. Open each citation and confirm it says what the answer claims.</span></li>
+    <li><b>Generate study aids</b><span>Try the briefing document, timeline, FAQ, mind map and audio overview if they are available in your account.</span></li>
+    <li><b>Verify and export</b><span>Mark any claim you cannot trace to a source as [TO VERIFY], then copy the result into a Google Doc.</span></li>
+  </ol>
+  <h3>Prompts to copy</h3>
+  <div class="prompt"><span>Build a dated timeline of events. Give the source for every entry.</span></div>
+  <div class="prompt"><span>List every person, phone number, account and place mentioned, and which documents mention each.</span></div>
+  <div class="prompt"><span>Where do these documents contradict each other?</span></div>
+  <div class="prompt"><span>What information is missing that an investigator should collect next?</span></div>
+  <div class="prompt"><span>Summarise for a Superintendent of Police in 10 lines. Mark anything uncertain.</span></div>
+  <h3>Other free tools for the same job</h3>
+  <p class="sub">Google Sheets or Orange Data Mining for tables and pivots; Looker Studio for dashboards; Tesseract OCR to turn scanned pages into text; a local model through Ollama when data must not leave your machine.</p>
+  <div class="task"><b>Practice task.</b> Hand in a 10-line briefing, a timeline with sources, and a list of at least three gaps or contradictions you found.</div>
+</section>
+
+<section class="panel" id="reports" hidden>
+  <h2>Lab 4 · Generate and prepare reports</h2>
+  <p class="sub">Fill in verified facts. The page builds a safe prompt you can paste into any free assistant.</p>
+  <div class="two">
+    <form id="rform" onsubmit="return false" class="card">
+      <label for="rt">Report type</label>
+      <select id="rt"><option>incident summary</option><option>hotspot briefing for patrol planning</option><option>case progress note</option><option>public press note</option></select>
+      <label for="ro">Offence or topic</label><input id="ro" placeholder="e.g. house burglary (synthetic)">
+      <label for="rd">Date and time</label><input id="rd" placeholder="e.g. 12 Oct, 01:30 to 03:00">
+      <label for="rl">Area (no private addresses)</label><input id="rl" placeholder="e.g. Sector 5 market area">
+      <label for="rf">Confirmed facts, one per line</label><textarea id="rf" placeholder="Rear window forced&#10;Two bikes seen leaving&#10;No injuries"></textarea>
+      <label for="rn">Analyst notes</label><textarea id="rn" placeholder="Pattern matches 3 earlier cases"></textarea>
+    </form>
+    <div class="card">
+      <label for="rout">Prompt for a local model (best for real data). Use Gemini, ChatGPT or Claude only with public or synthetic data</label>
+      <textarea id="rout" readonly style="min-height:300px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace"></textarea>
+      <button class="cp" id="rcp" style="position:static;margin-top:8px">Copy prompt</button>
+    </div>
+  </div>
+  <h3>Officer review checklist</h3>
+  <div class="card chk">
+    <label><input type="checkbox"> Every name, date, time and number matches the source record</label>
+    <label><input type="checkbox"> Legal sections and procedure were checked by an officer, not the AI</label>
+    <label><input type="checkbox"> No real personal data was pasted into a public AI tool</label>
+    <label><input type="checkbox"> Facts, assessment and gaps are clearly separated</label>
+    <label><input type="checkbox"> AI use is recorded as the department policy requires</label>
+    <label><input type="checkbox"> A responsible officer has read it and signed it off</label>
+  </div>
+  <div class="task"><b>Practice task.</b> Create the same report with two different assistants. List every difference, fix the errors, and complete the checklist.</div>
+</section>
+
+<section class="panel" id="private" hidden>
+  <h2>Private mode · AI without sending data out</h2>
+  <p class="sub">Everything runs on your own computer or a closed network. No uploads, no accounts, no cloud.</p>
+  <div class="scn"><b>SCENARIO</b>You must analyse a real set of complaints and call records. Policy says nothing may reach any outside service. Can you still use AI? Yes: run the models locally.</div>
+  <h3>Three levels of privacy</h3>
+  <div class="grid">
+    <div class="card"><span class="tag low">Level 1</span><h4>Local and offline</h4><p>Install tools while online, then switch the network off. Data never leaves the laptop.</p></div>
+    <div class="card"><span class="tag med">Level 2</span><h4>Air-gapped machine</h4><p>A computer that is never connected. Bring tools and models in on a scanned USB drive and check file hashes.</p></div>
+    <div class="card"><span class="tag">Level 3</span><h4>Department server</h4><p>An on-premise server with access control and logs, so a team can share one private model.</p></div>
+  </div>
+  <h3>Local replacements for cloud tools</h3>
+  <div class="grid">
+    <div class="card"><h4>NotebookLM → AnythingLLM or Open WebUI</h4><p>Ask questions over your own files with a local model. Runs on your machine.</p></div>
+    <div class="card"><h4>ChatGPT, Gemini, Claude → Ollama, LM Studio, GPT4All</h4><p>Open models such as Llama, Mistral, Gemma and Qwen run without internet.</p></div>
+    <div class="card"><h4>Colab → Jupyter or VS Code</h4><p>Same Python code on your own PC. Install packages from a saved folder for offline use.</p></div>
+    <div class="card"><h4>Cloud speech-to-text → Whisper locally</h4><p>whisper.cpp or faster-whisper transcribe call recordings on your own computer.</p></div>
+    <div class="card"><h4>Online maps → QGIS offline</h4><p>Keep a local base map. Browser map tools usually fetch map tiles from the internet.</p></div>
+    <div class="card"><h4>Protect the files</h4><p>Full-disk encryption (BitLocker or LUKS) or a VeraCrypt container, with cloud sync turned off.</p></div>
+  </div>
+  <h3>Build a private AI assistant</h3>
+  <ol class="steps">
+    <li><b>Install while online</b><span>Install Ollama from its official site, then download a small model and a local embedding model (commands below).</span></li>
+    <li><b>Go offline</b><span>Turn off Wi-Fi and unplug Ethernet. Run the model again to prove it still works.</span></li>
+    <li><b>Mask personal details first</b><span>Replace names, phone numbers and addresses with codes. Keep the code key in a separate encrypted file.</span></li>
+    <li><b>Ask your questions locally</b><span>Use the Python script below, or a desktop app such as AnythingLLM pointed at Ollama. Switch off telemetry in every tool’s settings.</span></li>
+    <li><b>Check nothing leaves</b><span>While it runs, list network connections and confirm there are none to outside addresses.</span></li>
+    <li><b>Clean up</b><span>Delete temporary files and chat history, and empty the recycle bin.</span></li>
+  </ol>
+<pre class="code"><code>ollama pull llama3.2
+ollama pull nomic-embed-text
+ollama run llama3.2          # works with the network off</code></pre>
+<pre class="code"><code>import requests, pathlib
+note = pathlib.Path("note.txt").read_text()
+r = requests.post("http://localhost:11434/api/generate", json={
+    "model": "llama3.2", "stream": False,
+    "prompt": "Summarise in 10 lines. Mark uncertain items [TO VERIFY].\n\n" + note})
+print(r.json()["response"])      # talks only to your own computer</code></pre>
+<pre class="code"><code>import re
+t = open("note.txt").read()
+t = re.sub(r"\b\d{10}\b", "[PHONE]", t)
+t = re.sub(r"\b[A-Z][a-z]+ [A-Z][a-z]+\b", "[NAME]", t)   # crude: check by hand
+open("note_masked.txt", "w").write(t)</code></pre>
+  <small class="n">The masking script is deliberately simple and will miss things. For real work use Presidio and review every output by hand. Check network use with <code>ss -tup</code> on Linux or <code>netstat -ano</code> on Windows.</small>
+  <div class="task"><b>Practice task.</b> With the network off, take a synthetic two-page case note and produce a 10-line summary, a timeline and a list of gaps. Hand in the outputs plus a screenshot of the network check.</div>
+  <h3>Secure handling checklist</h3>
+  <div class="card chk">
+    <label><input type="checkbox"> Disk is encrypted and the account is password protected</label>
+    <label><input type="checkbox"> Network is off, or the machine is air-gapped, during analysis</label>
+    <label><input type="checkbox"> Tools and models came from official sites and the file hash was checked</label>
+    <label><input type="checkbox"> Cloud sync, auto-backup and screen recording are turned off</label>
+    <label><input type="checkbox"> Telemetry and analytics are switched off in every tool</label>
+    <label><input type="checkbox"> Data was masked, and the code key is stored separately</label>
+    <label><input type="checkbox"> A human reviewed the output, and temp files and chat history were wiped</label>
+  </div>
+  <h3>Be honest about the limits</h3>
+  <ul class="l"><li>Small local models are weaker and can make things up. Verify even more carefully.</li><li>Small models need roughly 8 GB of RAM; larger ones need more. A GPU helps but is not required.</li><li>Check each model’s licence before official use.</li><li>Running locally protects the data, but you still need legal authority and approval to analyse it.</li></ul>
+</section>
+
+<section class="panel" id="tools" hidden>
+  <h2>Free tools directory</h2>
+  <p class="sub">Free tiers, limits and data policies change. Check them before a session.</p>
+  <div class="chips" id="chips">
+    <button data-f="all" aria-pressed="true">All</button><button data-f="analyse" aria-pressed="false">Analyse</button><button data-f="map" aria-pressed="false">Map</button><button data-f="predict" aria-pressed="false">Predict</button><button data-f="link" aria-pressed="false">Link analysis</button><button data-f="transcribe" aria-pressed="false">Transcribe</button><button data-f="report" aria-pressed="false">Report</button>
+  </div>
+  <div class="grid" id="tl">
+    <div class="card" data-c="analyse"><h4>Google NotebookLM</h4><p>Questions, summaries and timelines grounded in your own documents.</p><span class="tag">Free tier</span><span class="tag">Beginner</span></div>
+    <div class="card" data-c="predict"><h4>Google Colab</h4><p>Python notebooks in the browser for hotspot models and link analysis.</p><span class="tag">Free tier</span><span class="tag">Intermediate</span></div>
+    <div class="card" data-c="predict"><h4>Orange Data Mining</h4><p>Drag-and-drop machine learning with no code.</p><span class="tag">Open source</span><span class="tag">Beginner</span></div>
+    <div class="card" data-c="map"><h4>QGIS</h4><p>Professional desktop GIS: heatmaps, buffers, patrol zones.</p><span class="tag">Open source</span><span class="tag">Intermediate</span></div>
+    <div class="card" data-c="map"><h4>Kepler.gl</h4><p>Fast browser maps for large point data. Files stay in your browser.</p><span class="tag">Open source</span><span class="tag">Beginner</span></div>
+    <div class="card" data-c="analyse"><h4>Looker Studio</h4><p>Live dashboards from Google Sheets or CSV files.</p><span class="tag">Free</span><span class="tag">Beginner</span></div>
+    <div class="card" data-c="analyse"><h4>Google Sheets · LibreOffice Calc</h4><p>Cleaning, pivot tables and quick charts.</p><span class="tag">Free</span><span class="tag">Beginner</span></div>
+    <div class="card" data-c="link"><h4>Gephi</h4><p>Draw and measure networks of cases, phones and places.</p><span class="tag">Open source</span><span class="tag">Intermediate</span></div>
+    <div class="card" data-c="link"><h4>Neo4j (Community · Aura Free)</h4><p>Graph database for relationship questions across many records.</p><span class="tag">Free tier</span><span class="tag">Advanced</span></div>
+    <div class="card" data-c="transcribe"><h4>OpenAI Whisper</h4><p>Open-source speech-to-text for many languages. Run it in Colab.</p><span class="tag">Open source</span><span class="tag">Intermediate</span></div>
+    <div class="card" data-c="transcribe"><h4>Tesseract OCR</h4><p>Reads text from scanned pages and photos of documents.</p><span class="tag">Open source</span><span class="tag">Intermediate</span></div>
+    <div class="card" data-c="report"><h4>AnythingLLM · Open WebUI · LM Studio</h4><p>Private chat and document Q&amp;A on your own machine, a local alternative to NotebookLM.</p><span class="tag">Free</span><span class="tag">Beginner</span></div>
+    <div class="card" data-c="analyse"><h4>Microsoft Presidio</h4><p>Open-source tool that finds and masks names, phone numbers and IDs before analysis.</p><span class="tag">Open source</span><span class="tag">Intermediate</span></div>
+    <div class="card" data-c="report"><h4>Ollama</h4><p>Run open language models on your own computer so data stays local.</p><span class="tag">Open source</span><span class="tag">Intermediate</span></div>
+    <div class="card" data-c="report"><h4>Gemini · ChatGPT · Claude</h4><p>Free tiers for drafting, translating and summarising. Public data only.</p><span class="tag">Free tier</span><span class="tag">Beginner</span></div>
+  </div>
+  <h3>Open data to practise with</h3>
+  <ul class="l"><li>data.police.uk: street-level crime for England and Wales</li><li>Chicago Data Portal: crime records with coordinates</li><li>data.gov.in and the NCRB “Crime in India” tables</li><li>Kaggle crime datasets, or synthetic data made with an AI assistant</li></ul>
+</section>
+
+<section class="panel" id="ethics" hidden>
+  <h2>Ethics and safety</h2>
+  <p class="sub">Predictive tools can repeat old bias. Use them to support decisions, never to replace them.</p>
+  <div class="two">
+    <div class="card do"><h4>Do</h4><ul class="l"><li>Use public or synthetic data for training</li><li>Predict places and times, not individuals</li><li>Keep a human responsible for every decision</li><li>Verify each AI claim against the source</li><li>Record how AI was used, and test for bias</li><li>Follow department policy and the law</li></ul></div>
+    <div class="card dont"><h4>Don’t</h4><ul class="l"><li>Paste FIRs, victim or witness details into public AI tools</li><li>Treat AI output as evidence or proof</li><li>Rate named people as likely offenders</li><li>Run face recognition on real people in practice</li><li>Send officers to a place only because a model said so</li><li>Hide AI use from supervisors or courts</li></ul></div>
+  </div>
+  <h3>Known problems to discuss</h3>
+  <ul class="l"><li><b>Feedback loops:</b> more patrols find more crime there, so the data points there again.</li><li><b>Biased data:</b> records show what was reported and recorded, not all crime.</li><li><b>Opacity:</b> if you cannot explain a result, you cannot defend it.</li><li><b>Privacy:</b> in India, consider the Digital Personal Data Protection Act 2023 and the rules on electronic evidence. Elsewhere, apply your local law.</li></ul>
+  <h3>Before any real deployment</h3>
+  <ul class="l"><li>Legal basis and written approval</li><li>Data location, vendor terms and access control</li><li>Testing on past data and a bias review</li><li>Audit trail, supervisor sign-off and a way for the public to complain</li></ul>
+</section>
+
+</main>
+<script>
+const $=(s,e=document)=>e.querySelector(s),$$=(s,e=document)=>[...e.querySelectorAll(s)];
+function show(id){
+  $$('.panel').forEach(p=>p.hidden=p.id!==id);
+  $$('nav button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.t===id)));
+  window.scrollTo(0,0);
+  if(id==='hotspots' && typeof renderHotspotGrid === 'function') renderHotspotGrid();
+  if(id==='wordcloud' && typeof renderWordCloud === 'function') {
+    const list = activeWcCat==='all' ? WC_KEYWORDS : WC_KEYWORDS.filter(k=>k.cat===activeWcCat);
+    renderWordCloud(list);
+    if(activeWcWord) selectWcWord(activeWcWord);
+  }
+}
+$$('nav button').forEach(b=>b.onclick=()=>show(b.dataset.t));
+$$('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
+(function(){const h=(location.hash||'').slice(1);const ok=$$('.panel').some(p=>p.id===h);show(ok?h:'overview')})();
+async function copy(t,b){try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(_){}a.remove()}const o=b.textContent;b.textContent='Copied';setTimeout(()=>b.textContent=o,1200)}
+$$('pre.code').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>copy($('code',p).textContent,b);p.appendChild(b)});
+$$('.prompt').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>copy($('span',p).textContent,b);p.appendChild(b)});
+function build(){const v=i=>$('#'+i).value.trim();
+$('#rout').value=`Role: You are a report-writing assistant for a police analyst.\nTask: Draft a ${v('rt')} in plain, neutral English.\n\nRules:\n- Use only the facts given below. Do not invent names, dates, legal sections or numbers.\n- Mark anything missing as [TO VERIFY].\n- Keep facts and assessment separate. No speculation about guilt.\n- Use these headings: Summary, Facts, Assessment (analyst view), Gaps, Next steps.\n\nOffence or topic: ${v('ro')||'[TO VERIFY]'}\nDate and time: ${v('rd')||'[TO VERIFY]'}\nArea: ${v('rl')||'[TO VERIFY]'}\nConfirmed facts:\n${v('rf')||'[none entered]'}\nAnalyst notes:\n${v('rn')||'none'}`}
+$$('#rform input,#rform textarea,#rform select').forEach(e=>e.oninput=build);build();
+$('#rcp').onclick=e=>copy($('#rout').value,e.target);
+let st={};try{st=JSON.parse(localStorage.getItem('chk')||'{}')}catch(e){}
+$$('.chk input').forEach((c,i)=>{c.checked=!!st[i];c.onchange=()=>{st[i]=c.checked;try{localStorage.setItem('chk',JSON.stringify(st))}catch(e){}}});
+$$('#chips button').forEach(b=>b.onclick=()=>{$$('#chips button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$$('#tl .card').forEach(c=>c.hidden=b.dataset.f!=='all'&&c.dataset.c!==b.dataset.f)});
+
+// --- Interactive Word Cloud & Police Intelligence Data ---
+const WC_KEYWORDS = [
+  { word: "balcony latch", count: 9, cat: "burglary", time: "02:00 - 04:30", area: "Sector 9 & Beat 4", deduction: "9 burglaries where ground/1st-floor sliding balcony latches were pried with a thin pry-tool while residents slept.", tactic: "Issue community alert to install secondary window pins. Post plainclothes night checkpoint at Sector 9 rear access lane at 02:00 AM." },
+  { word: "black pulsar", count: 8, cat: "snatching", time: "06:30-08:00 & 19:30-21:00", area: "Station Road & Metro Exit 3", deduction: "Rider duo with obscured number plate targeting commuters looking down at smartphones.", tactic: "Focus ANPR cameras on commuter corridors; stop and inspect black Pulsar riders with tinted visors." },
+  { word: "pillion rider", count: 8, cat: "snatching", time: "07:00 - 20:30", area: "Station Rd & Sector 3", deduction: "Pillion passenger leans to grab purse/strap while driver keeps throttle open for instant wrong-way alleyway escape.", tactic: "Deploy two-officer mobile interceptor team on parallel service road during rush hour." },
+  { word: "midnight 02:00-04:00", count: 11, cat: "burglary", time: "02:00 - 04:00", area: "Beat 4 Residential", deduction: "Targeting deep circadian sleep trough. Offender times crimes right after routine 01:30 police cruiser pass.", tactic: "Stagger patrol shifts to unpredictable random intervals between 02:15 and 04:00." },
+  { word: "unlit alley", count: 8, cat: "burglary", time: "01:30 - 04:30", area: "Sector 9 Perimeter", deduction: "Burglars use defective municipal lighting along rear boundary walls as concealment and escape routes.", tactic: "Send urgent lighting requisition to municipal ward officer; place temporary mobile solar floodlight." },
+  { word: "electricity bill SMS", count: 7, cat: "cyber", time: "11:00 - 16:00", area: "City-wide / Senior Citizens", deduction: "Phishing SMS warning power cutoff tonight at 9:30 PM due to unpaid bill; directs victim to fake helpline.", tactic: "Issue cyber safety warning on official police handle; submit rogue SMS sender headers to telecom fraud portal." },
+  { word: "OTP prompt", count: 9, cat: "cyber", time: "10:00 - 18:00", area: "Digital / Banking", deduction: "Social engineering caller impersonates bank fraud desk while prompting victim for incoming authorization OTP.", tactic: "Advise senior citizens clubs; liaise with bank branches to place prominent counter warnings 'No Bank Asks For OTP'." },
+  { word: "tinted helmet", count: 7, cat: "snatching", time: "06:30 - 21:00", area: "Metro Corridor", deduction: "Both rider and pillion wear dark tinted visors to defeat municipal facial recognition CCTV cameras.", tactic: "Review entry toll cameras 15 minutes before incidents to catch riders with helmets off." },
+  { word: "handle lock break", count: 6, cat: "autotheft", time: "21:00 - 05:00", area: "Metro Parking & Sector 4", deduction: "Forceful kick against handlebar snaps internal pin lock; ignition hotwired in under 45 seconds.", tactic: "Mandate perimeter gate security logging at open parking; encourage citizens to use disk locks." },
+  { word: "ground floor window", count: 7, cat: "burglary", time: "02:30 - 04:30", area: "Sector 9", deduction: "Window grilles with rusted external screws removed quietly using cordless screwdrivers.", tactic: "Advise resident welfare association on internal weld reinforcements." },
+  { word: "remote screen APK", count: 5, cat: "cyber", time: "12:00 - 17:00", area: "Digital", deduction: "Victim instructed to install utility update APK which grants remote screen-sharing and OTP snooping.", tactic: "Trigger immediate I4C (1930) portal dispute to block recipient mule account within the Golden Hour." },
+  { word: "morning jogger", count: 5, cat: "snatching", time: "05:30 - 07:15", area: "Central Park Outer Ring", deduction: "Pedestrians exercising alone with exposed earphones or gold chains targeted in morning twilight.", tactic: "Position visible beat officer on foot near Central Park Gate 2 between 05:30 and 07:30." },
+  { word: "crowbar", count: 6, cat: "burglary", time: "01:00 - 03:30", area: "Commercial Market Beat 2", deduction: "Heavy roll-down shutter center padlocks sheared off in commercial electronics shops.", tactic: "Coordinate with market night chowkidars; verify roll-down alarm sensors." },
+  { word: "crossbody bag", count: 6, cat: "snatching", time: "18:00 - 21:00", area: "Market Gate 2", deduction: "Snatchers approach from behind on one-way lanes and forcefully yank straps, risking injury.", tactic: "Install high-visibility police barricades to slow down motorcycles entering pedestrian market lanes." },
+  { word: "mule account", count: 6, cat: "cyber", time: "Anytime", area: "Banking Channels", deduction: "Stolen funds routed through newly opened current accounts in regional rural banks within 8 minutes.", tactic: "Request bank nodal officer for fast-track lien placement under Sec 91 CrPC / BNSS." },
+  { word: "no CCTV", count: 9, cat: "burglary", time: "02:00 - 05:00", area: "Sector 9 Backlanes", deduction: "Culprits conduct daytime reconnaissance to map blind spots between private residential camera cones.", tactic: "Map community CCTV coverage; ask homeowners to angle one camera towards public alley." },
+  { word: "master key", count: 5, cat: "autotheft", time: "13:00 - 17:00", area: "Civil Hospital Parking", deduction: "Worn master keys used to unlock older commuter bike models without setting off vibration alarms.", tactic: "Deploy civil defense volunteer at hospital parking gate to check vehicle registration tokens." },
+  { word: "ECM bypass", count: 4, cat: "autotheft", time: "01:00 - 04:00", area: "Sector 5 Residential", deduction: "Electronic control module reprogrammer plugged into OBD port to duplicate key signals on SUVs.", tactic: "Patrol officers inspect stationary vehicles with broken quarter-glass during night rounds." },
+  { word: "fake KYC", count: 6, cat: "cyber", time: "10:00 - 16:00", area: "Digital", deduction: "Phishing links warning SIM card deactivation unless immediate biometric KYC update is submitted.", tactic: "Run public cyber awareness campaign across local resident WhatsApp groups." },
+  { word: "cut strap", count: 4, cat: "snatching", time: "19:00 - 21:00", area: "Metro Exit 3", deduction: "Small box cutter used by pillion rider to sever shoulder strap if victim holds on.", tactic: "Issue advisory warning pedestrians not to walk along roadway shoulders carrying bags on the traffic side." },
+  { word: "cash counter", count: 4, cat: "burglary", time: "02:00 - 03:30", area: "Commercial Market", deduction: "Commercial burglaries where only liquid cash was looted, leaving heavy goods untouched.", tactic: "Advise merchants to empty cash tills nightly into drop-safes." },
+  { word: "lock broken", count: 7, cat: "burglary", time: "01:30 - 04:00", area: "Sector 9", deduction: "Brass padlocks twisted off using iron pipe lever; indicates non-professional local opportunistic crew.", tactic: "Verify recently released property offenders residing within a 3km radius." },
+  { word: "unattended scooter", count: 5, cat: "autotheft", time: "18:00 - 21:30", area: "Vegetable Market", deduction: "Scooters left running or with key in ignition while shoppers buy groceries.", tactic: "PA system announcements reminding shoppers to remove keys and lock vehicles." },
+  { word: "pillion escape", count: 5, cat: "snatching", time: "19:30 - 21:30", area: "Station Road", deduction: "Rider weaves against oncoming traffic making pursuit by larger patrol four-wheelers impossible.", tactic: "Utilize two-wheeler Cheetah patrol units equipped with dashcams." }
+];
+
+const WC_CASES = [
+  { id: "FIR-2024-101", date: "14 Oct 03:15", type: "Burglary", area: "Sector 9 (Beat 4)", text: "Complainant reported forced entry via balcony latch using thin wedge. Target was ground floor window facing unlit alley with no CCTV. Cash and jewelry taken during midnight 02:00-04:00.", keywords: ["balcony latch", "midnight 02:00-04:00", "unlit alley", "ground floor window", "no CCTV", "cash counter"] },
+  { id: "FIR-2024-104", date: "17 Oct 02:45", type: "Burglary", area: "Sector 9 (Beat 4)", text: "Second incident in same block. Balcony latch pried open quietly, sliding window lifted. Midnight 02:00-04:00 hours. No CCTV coverage. Master bedroom ransacked, lock broken.", keywords: ["balcony latch", "midnight 02:00-04:00", "no CCTV", "lock broken", "ground floor window"] },
+  { id: "FIR-2024-109", date: "21 Oct 03:30", type: "Burglary", area: "Sector 9 (Beat 4)", text: "Balcony latch on 1st floor climbed via drainpipe. Unlit alley escape path. Lock broken with crowbar marks. Occurred during midnight 02:00-04:00 window.", keywords: ["balcony latch", "unlit alley", "lock broken", "crowbar", "midnight 02:00-04:00"] },
+  { id: "FIR-2024-112", date: "15 Oct 07:15", type: "Snatching", area: "Station Road", text: "Complainant morning jogger intercepted by black pulsar. Pillion rider wearing tinted helmet snatched gold chain. Motorcycle escaped towards highway.", keywords: ["black pulsar", "pillion rider", "tinted helmet", "morning jogger", "pillion escape"] },
+  { id: "FIR-2024-116", date: "18 Oct 19:40", type: "Snatching", area: "Metro Exit 3", text: "Victim walking towards bus stand. Two suspects on black pulsar approached. Pillion rider grabbed crossbody bag with cut strap. Tinted helmet obscured faces.", keywords: ["black pulsar", "pillion rider", "tinted helmet", "crossbody bag", "cut strap", "pillion escape"] },
+  { id: "FIR-2024-119", date: "22 Oct 06:50", type: "Snatching", area: "Central Park Outer Ring", text: "Morning jogger phone snatched by pillion rider on black pulsar. Suspects wore tinted helmet. Escaped against traffic on one-way stretch.", keywords: ["black pulsar", "pillion rider", "morning jogger", "tinted helmet", "pillion escape"] },
+  { id: "FIR-2024-122", date: "16 Oct 14:10", type: "Cyber Fraud", area: "City-wide / Digital", text: "Victim received electricity bill SMS claiming midnight disconnection. Tricked into calling spoofed helpline and providing OTP prompt. Rs 85,000 transferred to mule account.", keywords: ["electricity bill SMS", "OTP prompt", "mule account", "fake KYC"] },
+  { id: "FIR-2024-125", date: "19 Oct 11:30", type: "Cyber Fraud", area: "Digital", text: "Complainant targeted via fake KYC warning. Convinced to install remote screen APK to update bank credentials. Fraudsters captured OTP prompt and siphoned savings.", keywords: ["fake KYC", "remote screen APK", "OTP prompt", "mule account"] },
+  { id: "FIR-2024-128", date: "20 Oct 23:45", type: "Auto Theft", area: "Metro Parking (Beat 2)", text: "Motorcycle stolen from dark corner of metro parking. Handle lock break evident from broken metal fragments. No CCTV coverage in blind spot.", keywords: ["handle lock break", "no CCTV", "master key", "unattended scooter"] }
+];
+
+let activeWcCat = "all";
+let activeWcWord = "balcony latch";
+
+function renderWordCloud(items) {
+  const container = document.getElementById("wc-cloud-container");
+  if (!container) return;
+  container.innerHTML = "";
+  
+  const minCount = Math.min(...items.map(i => i.count));
+  const maxCount = Math.max(...items.map(i => i.count));
+  
+  items.forEach(item => {
+    const norm = maxCount === minCount ? 0.5 : (item.count - minCount) / (maxCount - minCount);
+    const fontSize = 13 + Math.round(norm * 17); // 13px to 30px
+    
+    const tag = document.createElement("div");
+    tag.className = `wc-tag wc-${item.cat || 'burglary'} ${item.word === activeWcWord ? 'active' : ''}`;
+    tag.style.fontSize = `${fontSize}px`;
+    tag.innerHTML = `<span>${item.word}</span><span class="wc-count">${item.count}</span>`;
+    
+    tag.onclick = () => selectWcWord(item.word);
+    container.appendChild(tag);
+  });
+  
+  document.getElementById("wc-total-count").textContent = items.length;
+}
+
+function selectWcWord(word) {
+  activeWcWord = word;
+  
+  // Highlight active tag
+  document.querySelectorAll(".wc-tag").forEach(el => {
+    el.classList.toggle("active", el.querySelector("span").textContent.trim() === word);
+  });
+  
+  const item = WC_KEYWORDS.find(k => k.word.toLowerCase() === word.toLowerCase()) || {
+    word: word, count: 5, cat: "custom", time: "Variable", area: "District Wide",
+    deduction: `Custom keyword '${word}' extracted from submitted FIR text. Indicates a recurring tactical pattern across complaints.`,
+    tactic: "Review all matching FIRs and dispatch verification officer to common coordinates."
+  };
+  
+  document.getElementById("wc-selected-word").textContent = item.word;
+  document.getElementById("wc-selected-freq").textContent = `${item.count} Incident Mentions`;
+  document.getElementById("wc-selected-cat").textContent = item.cat.toUpperCase();
+  document.getElementById("wc-selected-cat").className = `tag wc-${item.cat}`;
+  document.getElementById("wc-selected-deduction").innerHTML = item.deduction;
+  document.getElementById("wc-selected-tactic").textContent = item.tactic;
+  document.getElementById("wc-selected-profile").textContent = `${item.time} | Area: ${item.area}`;
+  
+  // Render matching cases
+  const matchingCases = WC_CASES.filter(c => 
+    (c.keywords || []).some(k => k.toLowerCase() === word.toLowerCase()) ||
+    (c.text || "").toLowerCase().includes(word.toLowerCase())
+  );
+  
+  const casesList = document.getElementById("wc-cases-list");
+  casesList.innerHTML = "";
+  document.getElementById("wc-matched-count").textContent = matchingCases.length;
+  
+  if (matchingCases.length === 0) {
+    casesList.innerHTML = `<p style="font-size:0.88rem;color:var(--mu);margin:8px 0;">No pre-indexed cases found for this specific term. Try 'balcony latch' or 'black pulsar'.</p>`;
+  } else {
+    matchingCases.forEach(c => {
+      const card = document.createElement("div");
+      card.className = "wc-case-item";
+      // Highlight matching word
+      const reg = new RegExp(`(${word})`, "gi");
+      const highlightedText = c.text.replace(reg, `<span class="wc-highlight">$1</span>`);
+      card.innerHTML = `
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:0.8rem">
+          <b>${c.id}</b> · <span>${c.date}</span> · <span class="tag low" style="margin:0">${c.area}</span>
+        </div>
+        <div style="line-height:1.4">${highlightedText}</div>
+      `;
+      casesList.appendChild(card);
+    });
+  }
+  
+  updateLinkGraph(word);
+}
+
+function updateLinkGraph(selectedWord) {
+  const svg = document.getElementById("link-graph-svg");
+  if (!svg) return;
+  svg.innerHTML = "";
+  
+  // Nodes: 4 cases, 3 attributes, 2 locations
+  const nodes = [
+    { id: "C101", label: "FIR-101", type: "case", x: 120, y: 80, cat: "burglary" },
+    { id: "C104", label: "FIR-104", type: "case", x: 120, y: 160, cat: "burglary" },
+    { id: "C109", label: "FIR-109", type: "case", x: 120, y: 240, cat: "burglary" },
+    { id: "W_LATCH", label: "balcony latch", type: "attr", x: 340, y: 120, cat: "burglary" },
+    { id: "W_MIDNIGHT", label: "02:00-04:00", type: "attr", x: 340, y: 200, cat: "burglary" },
+    { id: "A_SEC9", label: "Sector 9", type: "area", x: 480, y: 160, cat: "area" },
+    
+    { id: "C112", label: "FIR-112", type: "case", x: 700, y: 80, cat: "snatching" },
+    { id: "C116", label: "FIR-116", type: "case", x: 700, y: 160, cat: "snatching" },
+    { id: "C119", label: "FIR-119", type: "case", x: 700, y: 240, cat: "snatching" },
+    { id: "W_PULSAR", label: "black pulsar", type: "attr", x: 520, y: 90, cat: "snatching" },
+    { id: "W_HELMET", label: "tinted helmet", type: "attr", x: 520, y: 230, cat: "snatching" }
+  ];
+  
+  const edges = [
+    { from: "C101", to: "W_LATCH" }, { from: "C101", to: "W_MIDNIGHT" }, { from: "C101", to: "A_SEC9" },
+    { from: "C104", to: "W_LATCH" }, { from: "C104", to: "W_MIDNIGHT" }, { from: "C104", to: "A_SEC9" },
+    { from: "C109", to: "W_LATCH" }, { from: "C109", to: "W_MIDNIGHT" }, { from: "C109", to: "A_SEC9" },
+    
+    { from: "C112", to: "W_PULSAR" }, { from: "C112", to: "W_HELMET" },
+    { from: "C116", to: "W_PULSAR" }, { from: "C116", to: "W_HELMET" },
+    { from: "C119", to: "W_PULSAR" }, { from: "C119", to: "W_HELMET" }
+  ];
+  
+  // Highlight connections if selected word matches
+  let targetAttrId = null;
+  if (selectedWord.includes("latch")) targetAttrId = "W_LATCH";
+  else if (selectedWord.includes("midnight") || selectedWord.includes("02:00")) targetAttrId = "W_MIDNIGHT";
+  else if (selectedWord.includes("pulsar")) targetAttrId = "W_PULSAR";
+  else if (selectedWord.includes("helmet")) targetAttrId = "W_HELMET";
+  
+  // Draw edges
+  edges.forEach(e => {
+    const fNode = nodes.find(n => n.id === e.from);
+    const tNode = nodes.find(n => n.id === e.to);
+    if (!fNode || !tNode) return;
+    
+    const isLit = targetAttrId && (e.from === targetAttrId || e.to === targetAttrId);
+    
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", fNode.x);
+    line.setAttribute("y1", fNode.y);
+    line.setAttribute("x2", tNode.x);
+    line.setAttribute("y2", tNode.y);
+    line.setAttribute("class", `link-edge ${isLit ? 'active' : ''}`);
+    svg.appendChild(line);
+  });
+  
+  // Draw nodes
+  nodes.forEach(n => {
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("class", "link-node");
+    
+    let color = "#1d4ed8";
+    let radius = 16;
+    if (n.type === "attr") { color = "#d97706"; radius = 22; }
+    else if (n.type === "area") { color = "#059669"; radius = 20; }
+    
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", n.x);
+    circle.setAttribute("cy", n.y);
+    circle.setAttribute("r", radius);
+    circle.setAttribute("fill", color);
+    circle.setAttribute("stroke", n.id === targetAttrId ? "#ffffff" : "rgba(255,255,255,0.7)");
+    circle.setAttribute("stroke-width", n.id === targetAttrId ? "3" : "1.5");
+    
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", n.x);
+    text.setAttribute("y", n.y + 4);
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("fill", "#ffffff");
+    text.setAttribute("font-size", n.type === "case" ? "9" : "10");
+    text.setAttribute("font-weight", "600");
+    text.textContent = n.label;
+    
+    g.appendChild(circle);
+    g.appendChild(text);
+    
+    g.onclick = () => {
+      if (n.type === "attr") selectWcWord(n.label);
+      else if (n.type === "case") {
+        const c = WC_CASES.find(cs => cs.id.includes(n.id.replace("C", "")));
+        if (c && c.keywords[0]) selectWcWord(c.keywords[0]);
+      }
+    };
+    
+    svg.appendChild(g);
+  });
+}
+
+// Category Filtering for Word Cloud
+const wcFilters = document.querySelectorAll("#wc-filter-chips button");
+wcFilters.forEach(btn => {
+  btn.onclick = () => {
+    wcFilters.forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+    const cat = btn.dataset.cat;
+    activeWcCat = cat;
+    const filtered = cat === "all" ? WC_KEYWORDS : WC_KEYWORDS.filter(k => k.cat === cat);
+    renderWordCloud(filtered);
+    if (filtered.length > 0) selectWcWord(filtered[0].word);
+  };
+});
+
+// FIR Custom Text Sandbox & Stopwords
+const WC_STOPWORDS = new Set([
+  "the", "and", "is", "at", "in", "of", "to", "a", "for", "on", "with", "by", "from", "an", "this", "that", "was", "were", "are", "be", "been", "has", "have", "had", "it", "its", "as", "or", "which", "into", "their", "he", "she", "they", "we", "i", "my", "our", "fir", "police", "complainant", "stated", "herein", "reported", "occurred", "under", "section", "ipc", "bns", "crpc", "district", "station", "regarding", "said"
+]);
+
+const WC_PRESETS = {
+  burglary: "Complainant reported that between 02:00 and 04:00 midnight, unknown perpetrators forced entry through the rear balcony latch. Sliding window latch was broken with crowbar marks. Target was ground floor window facing unlit alley. No CCTV cameras installed in backlane. Cash counter ransacked and jewelry taken.",
+  snatching: "Two unidentified suspects riding a black pulsar motorcycle approached victim near station road. Pillion rider wearing tinted helmet leaned and grabbed gold chain from morning jogger. Suspects performed pillion escape against traffic with cut strap bag.",
+  cyber: "Victim received fraudulent electricity bill SMS warning of immediate power cutoff at 9:30 PM. Tricked into dialing fake customer support number. Fraudster initiated screen sharing via remote screen APK and captured confidential OTP prompt to empty bank account into mule account.",
+  autotheft: "Complainant parked motorcycle at metro parking lot. At night, accused used forceful handle lock break to bypass ignition wiring. Area was unlit with no CCTV coverage. Suspects used master key and ECM bypass tools."
+};
+
+document.querySelectorAll(".wc-preset-btn").forEach(btn => {
+  btn.onclick = () => {
+    const key = btn.dataset.preset;
+    document.getElementById("wc-custom-input").value = WC_PRESETS[key] || "";
+  };
+});
+
+document.getElementById("wc-process-btn").onclick = () => {
+  const text = document.getElementById("wc-custom-input").value.trim();
+  if (!text) {
+    alert("Please type or paste some FIR text, or select one of the presets above.");
+    return;
+  }
+  
+  // Tokenize & clean
+  const words = text.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, " ")
+    .split(/\s+/)
+    .filter(w => w.length > 2 && !WC_STOPWORDS.has(w));
+  
+  // Frequency map
+  const freq = {};
+  words.forEach(w => { freq[w] = (freq[w] || 0) + 1; });
+  
+  // Bigrams check for key phrases
+  const lower = text.toLowerCase();
+  const knownPhrases = ["balcony latch", "black pulsar", "pillion rider", "tinted helmet", "unlit alley", "ground floor", "electricity bill", "otp prompt", "remote screen", "mule account", "handle lock", "master key", "no cctv", "cut strap", "morning jogger"];
+  
+  const extracted = [];
+  knownPhrases.forEach(p => {
+    if (lower.includes(p)) {
+      extracted.push({ word: p, count: (freq[p.split(" ")[0]] || 2) + 3, cat: "burglary" });
+    }
+  });
+  
+  // Top single words
+  Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 14).forEach(w => {
+    if (!extracted.some(e => e.word.includes(w))) {
+      extracted.push({ word: w, count: freq[w] + 1, cat: "snatching" });
+    }
+  });
+  
+  renderWordCloud(extracted);
+  if (extracted.length > 0) selectWcWord(extracted[0].word);
+  
+  const drawer = document.getElementById("wc-inspector-drawer");
+  drawer.scrollIntoView({ behavior: 'smooth' });
+};
+
+// Initial Render
+renderWordCloud(WC_KEYWORDS);
+selectWcWord("balcony latch");
+
+// --- Lab 1: Interactive Hotspot Grid Matrix Simulator ---
+const HS_DATA = {
+  weekday: {
+    day: [12, 18, 14, 8,  22, 65, 45, 15,  18, 50, 72, 20,  10, 15, 25, 9],
+    evening: [20, 35, 28, 14,  30, 85, 70, 25,  25, 75, 90, 32,  15, 22, 38, 18],
+    night: [15, 28, 18, 10,  25, 92, 60, 20,  20, 68, 88, 25,  12, 18, 30, 14]
+  },
+  weekend: {
+    day: [18, 25, 20, 12,  30, 70, 55, 22,  24, 60, 80, 28,  15, 20, 35, 14],
+    evening: [35, 55, 42, 25,  50, 120, 110, 45,  40, 95, 135, 50,  25, 38, 60, 30],
+    night: [22, 40, 30, 18,  40, 115, 85, 32,  35, 90, 125, 40,  18, 28, 48, 22]
+  }
+};
+
+let hsDay = "weekday";
+let hsShift = "night";
+
+function renderHotspotGrid() {
+  const container = document.getElementById("hs-mini-grid");
+  if (!container) return;
+  container.innerHTML = "";
+  
+  const counts = HS_DATA[hsDay][hsShift];
+  const max = Math.max(...counts);
+  const cellNames = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"];
+  const sectorNames = { "B2": "Sector 9 Res.", "B3": "Market Core", "C2": "Alleyway North", "C3": "Market Backlane", "A2": "Station Rd", "C4": "Highway Edge" };
+  
+  counts.forEach((c, i) => {
+    const code = cellNames[i];
+    const norm = c / max;
+    const cell = document.createElement("div");
+    cell.className = "hotspot-cell";
+    
+    // Gradient from cold light blue to intense crimson
+    let bg = "#e0e7ff";
+    let textCol = "#1e1b4b";
+    if (norm > 0.75) { bg = "#dc2626"; textCol = "#ffffff"; }
+    else if (norm > 0.5) { bg = "#ea580c"; textCol = "#ffffff"; }
+    else if (norm > 0.3) { bg = "#f59e0b"; textCol = "#ffffff"; }
+    else if (norm > 0.15) { bg = "#93c5fd"; textCol = "#1e3a8a"; }
+    
+    cell.style.background = bg;
+    cell.style.color = textCol;
+    cell.innerHTML = `<div>${code}</div><div style="font-size:0.75rem;opacity:0.9">${c} pts</div>`;
+    
+    cell.title = `Cell ${code}: ${c} predicted incidents (${sectorNames[code] || 'General Beat'})`;
+    cell.onclick = () => {
+      document.getElementById("hs-briefing-alert").innerHTML = `
+        <b>Cell ${code} (${sectorNames[code] || 'General District Sector'}):</b> Predicted risk score is <b>${c} incidents</b> during ${hsDay.toUpperCase()} ${hsShift.toUpperCase()} shift. Recommended deployment: 1 patrol vehicle + 2 foot officers.
+      `;
+    };
+    
+    container.appendChild(cell);
+  });
+  
+  const alertEl = document.getElementById("hs-briefing-alert");
+  if (alertEl) {
+    if (hsShift === "night") {
+      alertEl.innerHTML = `<b>Recommended Patrol Priority (${hsDay.toUpperCase()} NIGHT):</b> Sector 9 (Cell B2) & Market Backlane (Cell C3) hold 64% of night burglary probability. Concentrated night patrol suggested from 02:00 to 04:30.`;
+    } else if (hsShift === "evening") {
+      alertEl.innerHTML = `<b>Recommended Patrol Priority (${hsDay.toUpperCase()} EVENING):</b> Market Core (Cell B3) & Station Road (Cell A2) show high pedestrian snatching concentration. Deploy visible anti-snatching bikes.`;
+    } else {
+      alertEl.innerHTML = `<b>Recommended Patrol Priority (${hsDay.toUpperCase()} DAY):</b> Overall volume lower. Normal baseline community policing floor in Sector 9 and Civil Lines.`;
+    }
+  }
+}
+
+document.querySelectorAll("#hs-day-chips button").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll("#hs-day-chips button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    hsDay = b.dataset.day;
+    renderHotspotGrid();
+  };
+});
+
+document.querySelectorAll("#hs-shift-chips button").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll("#hs-shift-chips button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    hsShift = b.dataset.shift;
+    renderHotspotGrid();
+  };
+});
+
+renderHotspotGrid();
+
+</script>
+</body>
+</html>
